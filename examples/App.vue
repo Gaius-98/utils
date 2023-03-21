@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { scrollToDom } from '../packages/index'
+import option from './chart.json'
 
 const testFunc = () => {
   scrollToDom({
@@ -20,26 +21,8 @@ const testSc = () => {
     style="width:400px;height:200px;border:1px solid #ccc"
     @click="testFunc"
   >
-  </div>
-  <div
-    
-    class="parent"
-  >
-    <div
-      
-      class="child1"
-    >
-      child1
-      <div
-        v-drag
-        class="child11"
-      >
-        child11
-      </div>
-    </div>
-    <div class="child">
-      child
-    </div>
+    <gu-chart :insert-option="option">
+    </gu-chart>
   </div>
 </template>
 

@@ -13,7 +13,10 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "baseUrl": "./packages",
-    "paths":{"*":["types/*"]},
+    "paths":{
+      "@t/*":["types/*"],
+      "@/*":["packages/*"]
+  },
     "declaration": true,
     "declarationDir":".",
   },

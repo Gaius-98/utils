@@ -6,9 +6,3 @@ export interface scrollToParams{
   to:Element,
   minError?:number,
 }
-/**
- * 通用对象
- */
-export interface obj {
-  [key:string]:any
-}

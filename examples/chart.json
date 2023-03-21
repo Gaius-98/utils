@@ -1,0 +1,61 @@
+{
+  "chartName": "",
+  "option": {
+      "title": {
+          "color": "#ccc"
+      },
+      "xAxis": [
+          {
+              "type": "category",
+              "position": "bottom"
+          }
+      ],
+      "yAxis": {
+          "type": "value"
+      },
+      "legend": {},
+      "series": [
+          {
+              "name": "类目一",
+              "data": [
+                  150,
+                  12,
+                  224,
+                  218,
+                  135,
+                  147,
+                  260
+              ],
+              "type": "line"
+          },
+          {
+              "name": "类目二",
+              "data": [
+                  110,
+                  21,
+                  120,
+                  318,
+                  165,
+                  177,
+                  160
+              ],
+              "type": "line"
+          }
+      ]
+  },
+  "img": "",
+  "chartId": "",
+  "chartType": "line",
+  "creator": "",
+  "reqOption": {
+      "url": "http://jsonplaceholder.typicode.com/comments",
+      "method": "get",
+      "params": {
+          "postId": "1"
+      },
+      "headers": {},
+      "data": {}
+  },
+  "handleDatajs": "\n  //--------------接口获取的数据---------------\n  console.log(reqData)\n  //---------------图表option-------------------\n  console.log(option)\n  ",
+  "variable": {}
+}
