@@ -1,9 +1,9 @@
 {
   "name": "gaius-utils",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
-    "name": "GuoShuai",
+    "name": "WangGuoshuai",
     "email": "2388838628@qq.com"
   },
   "types": "./lib/utils.d.ts",
