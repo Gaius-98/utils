@@ -7,23 +7,22 @@
   </div>
 </template>
 
-<script lang='ts' setup name="GuChart">
+<script lang='ts' setup name="EvChart">
 import { init, EChartsType } from 'echarts'
 import { reactive, toRefs, ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
 import { obj, reqForm } from '../../types/common'
 
-const props = defineProps({
-  insertOption: {
-    type: Object,
-    default: null,
-  },
-  option: {
-    type: Object,
-    default: null,
-  },
+export interface Props {
+  insertOption?:obj,
+  option?:obj
+}
+const props = withDefaults(defineProps<Props>(), {
+  insertOption: () => ({}),
+  option: () => ({}),
 })
+
 const loading = ref(true)
 const route = useRoute()
 const { insertOption, option } = toRefs(props)
@@ -150,6 +149,7 @@ const handleVar = () => {
     initEchart()
   })
 }
+const emits = defineEmits([''])
 </script>
 <style scoped lang='scss'>
 .ev-chart{
