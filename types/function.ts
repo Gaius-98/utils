@@ -4,5 +4,4 @@
 export interface scrollToParams{
   container?:Element,
   to:Element,
-  minError?:number,
 }

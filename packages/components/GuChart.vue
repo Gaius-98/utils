@@ -1,13 +1,13 @@
 <template>
   <div
-    ref="evChart"
+    ref="guChart"
     v-loading="loading"
-    class="ev-chart"
+    class="gu-chart"
   >
   </div>
 </template>
 
-<script lang='ts' setup name="EvChart">
+<script lang='ts' setup name="GuChart">
 import { init, EChartsType } from 'echarts'
 import { reactive, toRefs, ref, onMounted, watch } from 'vue'
 import axios from 'axios'
@@ -72,16 +72,16 @@ if (insertOption.value) {
 } else {
   Object.assign(chartOption, option.value)
 }
-const evChart = ref()
-let evChartInstance:EChartsType
+const guChart = ref()
+let guChartInstance:EChartsType
 const timer = ref(0)
 const initEchart = () => {
-  if (evChartInstance) {
-    evChartInstance.clear()
-    evChartInstance.setOption(chartOption)
-  } else if (evChart.value) {
-    evChartInstance = init(evChart.value)
-    evChartInstance.setOption(chartOption)
+  if (guChartInstance) {
+    guChartInstance.clear()
+    guChartInstance.setOption(chartOption)
+  } else if (guChart.value) {
+    guChartInstance = init(guChart.value)
+    guChartInstance.setOption(chartOption)
   }
   loading.value = false
 }
@@ -89,7 +89,7 @@ const rsOb = new ResizeObserver((e => {
   if (timer.value) clearTimeout(timer.value)
   timer.value = window.setTimeout(() => {
     try {
-      evChartInstance.resize()
+      guChartInstance.resize()
     } catch (error) {
       console.warn(`chart重新设置大小失败,失败原因：${error}`)
     }
@@ -97,7 +97,7 @@ const rsOb = new ResizeObserver((e => {
 }))
 onMounted(() => {
   initEchart()
-  rsOb.observe(evChart.value)
+  rsOb.observe(guChart.value)
   window.addEventListener('hashchange', () => {
     let url = window.location.href
     if (url.includes('?')) {
@@ -152,7 +152,7 @@ const handleVar = () => {
 const emits = defineEmits([''])
 </script>
 <style scoped lang='scss'>
-.ev-chart{
+.gu-chart{
   width: 100%;
   height: 100%;
 }

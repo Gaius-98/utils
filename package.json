@@ -1,7 +1,7 @@
 {
   "name": "gaius-utils",
   "private": false,
-  "version": "0.1.2",
+  "version": "0.1.4",
   "author": {
     "name": "WangGuoshuai",
     "email": "2388838628@qq.com"
@@ -21,14 +21,16 @@
     "utils",
     "vue"
   ],
-  
   "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/Gaius-98/utils.git"
   },
   "license": "Apache-2.0",
-  "homepage": "",
+  "homepage": "https://github.com/Gaius-98/utils#readme",
+  "publishConfig": {
+    "registry": "https://github.com/Gaius-98/utils.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit&& vite build",

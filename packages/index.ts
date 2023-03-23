@@ -3,6 +3,7 @@ import copy from './directives/copy'
 import scrollToDom from './functions/scrollToDom'
 import GuDragResize from './components/GuDragResize.vue'
 import GuChart from './components/GuChart.vue'
+
 const install = (app:App) => {
   app.directive(copy.name, copy.options)
   app.component(GuChart.name, GuChart)
@@ -11,7 +12,8 @@ const install = (app:App) => {
 
 export {
   scrollToDom,
-  // GuChart,
+  GuChart,
   GuDragResize,
+  copy,
 }
 export default { install }
