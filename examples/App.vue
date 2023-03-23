@@ -3,15 +3,13 @@ import { scrollToDom } from '../packages/index'
 import option from './chart.json'
 
 const testFunc = () => {
-  scrollToDom({
-    container: document.querySelector('.parent') as Element,
-    to: document.querySelector('.child11') as Element,
-  })
+  scrollToDom(
+    document.querySelector('.child11') as Element,
+    document.querySelector('.parent') as Element,
+  )
 }
 const testSc = () => {
-  scrollToDom({
-    to: document.querySelector('.child11') as Element,
-  })
+  scrollToDom(document.querySelector('.child11') as Element)
 }
 </script>
 
@@ -21,8 +19,10 @@ const testSc = () => {
     style="width:400px;height:200px;border:1px solid #ccc"
     @click="testFunc"
   >
-    <gu-chart :insert-option="option">
-    </gu-chart>
+    <gu-drag-resize>
+      <gu-chart :insert-option="option">
+      </gu-chart>
+    </gu-drag-resize>
   </div>
 </template>
 

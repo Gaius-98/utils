@@ -8,8 +8,8 @@ fnxxx()
 ```
 
 #### 函数功能说明
-1. scrollToDom 将dom滚动到可视范围内
+1. scrollToDom 在container中定位到dom
    参数|类型|默认值|说明
    --|--|--|----
    container|Element|window|容器
-   to|Element|-|要到可视范围内的dom
+   to|Element|-|在container中定位到dom

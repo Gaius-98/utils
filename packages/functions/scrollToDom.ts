@@ -1,11 +1,9 @@
 /**
- * scroll展示dom
- * @param params  scrollToParams
+ * 滚动container 定位容器
+ * @param container -- Element dom的容器
+ * @param to -- Element  需要定位到的dom
  */
-import { scrollToParams } from '../../types/function'
-
-const scrollToDom = (params:scrollToParams) => {
-  const { container, to } = params
+const scrollToDom = (to: Element, container?:Element) => {
   if (container) {
     const { left: cLeft, top: cTop } = container?.getBoundingClientRect() as DOMRect
     const { left: tLeft, top: tTop } = to.getBoundingClientRect()
