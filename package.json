@@ -29,7 +29,11 @@
   "license": "Apache-2.0",
   "homepage": "https://github.com/Gaius-98/utils#readme",
   "publishConfig": {
-    "registry": "https://github.com/Gaius-98/utils.git"
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bugs":{
+    "url":"https://github.com/Gaius-98/utils.git",
+    "email":"2388838628@qq.com"
   },
   "scripts": {
     "dev": "vite",
