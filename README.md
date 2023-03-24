@@ -12,9 +12,9 @@ npm i gaius-utils
   createApp(App).use(GaiusUtils)
   ```
 2. 部分引入
-   ```
-   import {xxx} from 'gaius-utils'
-   ```
+  ```
+  import {xxx} from 'gaius-utils'
+  ```
 ## components
   1. [GuChart](./docs/components/GuChart.md)
   2. [GuDragResize](./docs/components/GuDragReszie.md)
