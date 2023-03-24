@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { scrollToDom } from '../packages/index'
 import option from './chart.json'
+import { ref } from 'vue'
 
 const testFunc = () => {
   scrollToDom(
@@ -8,9 +9,13 @@ const testFunc = () => {
     document.querySelector('.parent') as Element,
   )
 }
-const testSc = () => {
-  scrollToDom(document.querySelector('.child11') as Element)
-}
+const arr = ref<any[]>([])
+arr.value = new Array(200).fill(1).map((item, idx) => ({
+  label: 'label' + idx,
+  value: 'val' + idx,
+  key: 'key' + idx,
+}))
+
 </script>
 
 <template>
@@ -24,6 +29,17 @@ const testSc = () => {
       </gu-chart>
     </gu-drag-resize>
   </div>
+  <gu-virtual-list
+    :list="arr"
+    style="height:240px"
+    :item-height="40"
+  >
+    <template #content="scope">
+      <div>
+        {{ scope.item.label + '('+scope.item.value+')' }}
+      </div>
+    </template>
+  </gu-virtual-list>
 </template>
 
 <style scoped lang="scss">

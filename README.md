@@ -18,6 +18,7 @@ npm i gaius-utils
 ## components
   1. [GuChart](./docs/components/GuChart.md)
   2. [GuDragResize](./docs/components/GuDragReszie.md)
+  3. [GuVirtualList](./docs/components/GuVirtualList.md)
 ## directives
   1. [v-copy](./docs/directions/copy.md)
 ## functions

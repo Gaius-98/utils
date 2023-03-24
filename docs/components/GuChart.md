@@ -1,11 +1,11 @@
 ### GuChart
 生成chart图表的组件
 #### 使用
-1. insert-option的说明
-2. 普通option的说明
-   使用常规的echart配置即可
 ```
 <gu-chart :insert-option="option">
+</gu-chart>
+// 或
+<gu-chart :option="option">
 </gu-chart>
 ```
 #### props
