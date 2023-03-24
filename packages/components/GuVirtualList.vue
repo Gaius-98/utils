@@ -32,9 +32,9 @@ import { vList, replaceField } from '../../types/virtualList'
 import { obj } from '../../types/common'
 
 interface Props {
-  itemHeight:number,
+  itemHeight?:number,
   list:vList,
-  replaceField:replaceField
+  replaceField?:replaceField
 }
 const defaultField = {
   children: 'children',

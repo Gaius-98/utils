@@ -1,7 +1,6 @@
 <template>
   <div
     ref="guChart"
-    v-loading="loading"
     class="gu-chart"
   >
   </div>
