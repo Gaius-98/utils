@@ -1,6 +1,6 @@
 import { App } from 'vue'
 import copy from './directives/copy'
-import scrollToDom from './functions/scrollToDom'
+import { scrollToDom, getVarType, getLowerCase, getUpperCase } from './functions/functions'
 import GuDragResize from './components/GuDragResize.vue'
 import GuChart from './components/GuChart.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
@@ -20,6 +20,9 @@ const install = (app:App) => {
 }
 export { 
   scrollToDom,
+  getVarType,
+  getLowerCase,
+  getUpperCase,
   GuDragResize,
   GuChart,
   GuVirtualList,
