@@ -5,12 +5,12 @@ import { ref } from 'vue'
 
 const testFunc = () => {
   scrollToDom(
-    document.querySelector('.child11') as Element,
-    document.querySelector('.parent') as Element,
+    document.querySelector('.listval5') as Element,
+    document.querySelector('.test') as Element,
   )
 }
 const arr = ref<any[]>([])
-arr.value = new Array(200).fill(1).map((item, idx) => ({
+arr.value = new Array(20000).fill(1).map((item, idx) => ({
   label: 'label' + idx,
   value: 'val' + idx,
   key: 'key' + idx,
@@ -20,7 +20,7 @@ arr.value = new Array(200).fill(1).map((item, idx) => ({
 
 <template>
   <div
-    v-copy:dblclick="'test'"
+    v-copy="'test'"
     style="width:400px;height:200px;border:1px solid #ccc"
     @click="testFunc"
   >
@@ -32,10 +32,11 @@ arr.value = new Array(200).fill(1).map((item, idx) => ({
   <gu-virtual-list
     :list="arr"
     style="height:240px"
-    :item-height="40"
+    :item-height="20"
+    class="test"
   >
     <template #content="scope">
-      <div>
+      <div :class="'list'+scope.item.value">
         {{ scope.item.label + '('+scope.item.value+')' }}
       </div>
     </template>
