@@ -21,6 +21,7 @@ npm i gaius-utils
   3. [GuVirtualList](./docs/components/GuVirtualList.md)
 ## directives
   1. [v-copy](./docs/directions/copy.md)
+  2. [v-lazy-img](./docs/directions/lazyImg.md)
 ## functions
   [functions](./docs/functions/fns.md)
 ## hooks

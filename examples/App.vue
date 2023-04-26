@@ -41,6 +41,34 @@ arr.value = new Array(20000).fill(1).map((item, idx) => ({
       </div>
     </template>
   </gu-virtual-list>
+  <img
+    v-lazy-img="'https://img0.baidu.com/it/u=697903734,1544489081&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1682614800&t=2dde78ba9fc700c509d3e0f24419ca45'"
+    alt=""
+  >
+  <div style="height:400px;width:400px">
+    <img
+      v-lazy-img="'https://img0.baidu.com/it/u=697903734,1544489081&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1682614800&t=2dde78ba9fc700c509d3e0f24419ca45'"
+      alt=""
+    >
+  </div>
+  <div style="height:400px;width:400px">
+    <img
+      v-lazy-img="'https://img0.baidu.com/it/u=697903734,1544489081&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1682614800&t=2dde78ba9fc700c509d3e0f24419ca45'"
+      alt=""
+    >
+  </div>
+  <div style="height:400px;width:400px">
+    <img
+      v-lazy-img="'https://img0.baidu.com/it/u=697903734,1544489081&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1682614800&t=2dde78ba9fc700c509d3e0f24419ca45'"
+      alt=""
+    >
+  </div>
+  <div style="height:400px;width:400px">
+    <img
+      v-lazy-img="'https://t13.baidu.com/it/u=1084184136,781431096&fm=224&app=112&size=w931&n=0&f=JPEG&fmt=auto?sec=1682614800&t=41d07e09573e7ea98dca21d53348e366'"
+      alt=""
+    >
+  </div>
 </template>
 
 <style scoped lang="scss">
