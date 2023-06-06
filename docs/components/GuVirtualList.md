@@ -2,7 +2,7 @@
 虚拟列表组件
 #### 使用
 ```
-<gu-virtual-li
+<gu-virtual-list>
   :list="arr"
   style="height:240px"
   :item-height="40"
@@ -12,7 +12,7 @@
       {{ scope.item.label + '('+scope.item.value+')' }}
     </div>
   </template>
-</gu-virtual-li
+</gu-virtual-list>
 ```
 #### props
 属性|说明|默认值|类型|注释

@@ -7,12 +7,18 @@
     <ul
       ref="virtualList" 
       class="gu-virtual-list"
+      :style="{
+        paddingTop:scrollTop + 'px'
+      }"
     >
       <li
         v-for="item in showList"
         :key="item[field.key]"
         class="gu-virtual-list-item"
         :class="active == item[field.value] ? 'active' :''"
+        :style="{
+          height:itemHeight + 'px'
+        }"
         @click="onClick(item)"
       >
         <slot
@@ -53,11 +59,9 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 })
 const { itemHeight, list, replaceField: propField } = toRefs(props)
-const itemHeightPx = computed(() => `${itemHeight.value}px`)
 const totalHeightPx = computed(() => `${
   itemHeight.value * (list.value.length - needShowLength.value) 
   - scrollTop.value}px`)
-const paddingTopPx = computed(() => `${scrollTop.value}px`)
 
 const field = computed(() => ({
   ...defaultField,
@@ -111,10 +115,8 @@ onMounted(() => {
   .gu-virtual-list{
     height:v-bind(totalHeightPx);
     padding: 0;
-    padding-top:v-bind(paddingTopPx);
     margin: 0;
     .gu-virtual-list-item{
-      height:v-bind(itemHeightPx) ;
       list-style: none;
       &.active{
         background: rgba($color: #ccc, $alpha: .5);
