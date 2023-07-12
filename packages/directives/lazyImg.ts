@@ -1,4 +1,4 @@
-const obServer = (el, src) => {
+const obServer = (el:any, src:string) => {
   let lazyImageObserver = new IntersectionObserver(((entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {

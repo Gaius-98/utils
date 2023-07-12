@@ -1,6 +1,7 @@
 import { App } from 'vue'
 import copy from './directives/copy'
 import { scrollToDom, getVarType, getLowerCase, getUpperCase } from './functions/functions'
+import Dialog from './components/useDialog'
 import GuDragResize from './components/GuDragResize.vue'
 import GuChart from './components/GuChart.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
@@ -27,6 +28,7 @@ export {
   GuChart,
   GuVirtualList,
   copy,
+  Dialog,
 }
 
 export default { install }

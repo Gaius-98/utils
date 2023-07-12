@@ -21,7 +21,7 @@
 </template>
 
 <script lang='ts' setup name="GuDragResize">
-import { toRefs, ref, onMounted, PropType } from 'vue'
+import { toRefs, ref, onMounted } from 'vue'
 import { v4 as uuid } from 'uuid'
 import { dragResizePropsInit } from '../../types/dragResize'
 

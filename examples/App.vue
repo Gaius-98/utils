@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { scrollToDom } from '../packages/index'
+import { GuChart, scrollToDom, GuVirtualList, Dialog } from '../packages/index'
 import option from './chart.json'
 import { ref } from 'vue'
 
@@ -9,6 +9,7 @@ const testFunc = () => {
     document.querySelector('.test') as Element,
   )
 }
+
 const arr = ref<any[]>([])
 arr.value = new Array(20000).fill(1).map((item, idx) => ({
   label: 'label' + idx,
@@ -16,6 +17,19 @@ arr.value = new Array(20000).fill(1).map((item, idx) => ({
   key: 'key' + idx,
 }))
 
+const dialog = new Dialog({
+  title: '测试',
+  content: GuChart,
+  size: 'default',
+  footer: false,
+  componentProps: {
+    insertOption: option,
+  },
+  cb: (e:any) => {
+    console.log(e)
+    dialog.destroyed()
+  },
+})
 </script>
 
 <template>
@@ -41,6 +55,9 @@ arr.value = new Array(20000).fill(1).map((item, idx) => ({
       </div>
     </template>
   </gu-virtual-list>
+  <button @click="dialog.create()">
+    打开弹窗
+  </button>
 </template>
 
 <style scoped lang="scss">
