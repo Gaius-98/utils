@@ -24,7 +24,6 @@
           :is="content"
           v-bind="componentProps"
           ref="contentCompontent"
-          style="width: 100%;height:100%"
         ></component>
       </div>
       <div
@@ -146,6 +145,7 @@ const onCancel = () => {
   .content{
     width: calc(100% - 80px);
     height: calc(100% - 80px);
+    overflow: auto;
     margin: 0 auto;
   }
   .footer{

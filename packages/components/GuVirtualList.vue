@@ -118,8 +118,11 @@ onMounted(() => {
     margin: 0;
     .gu-virtual-list-item{
       list-style: none;
+      cursor: pointer;
+      padding: 2px 5px;
       &.active{
-        background: rgba($color: #ccc, $alpha: .5);
+        background: rgba(24,144,255,.8);
+        color: #fff;
       }
     }
   }
