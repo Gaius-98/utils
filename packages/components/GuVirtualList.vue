@@ -59,9 +59,7 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 })
 const { itemHeight, list, replaceField: propField } = toRefs(props)
-const totalHeightPx = computed(() => `${
-  itemHeight.value * (list.value.length - needShowLength.value) 
-  - scrollTop.value}px`)
+const totalHeightPx = computed(() => itemHeight.value * list.value.length - scrollTop.value)
 
 const field = computed(() => ({
   ...defaultField,
@@ -94,6 +92,10 @@ const onScroll = () => {
   needShowLength.value = Math.floor(height / itemHeight.value)
   startIndex.value = Math.floor((scrollTop.value) / itemHeight.value)
   endIndex.value = Math.floor((startIndex.value + needShowLength.value + 2))
+  if (endIndex.value >= list.value.length) {
+    endIndex.value = list.value.length
+    startIndex.value = endIndex.value - needShowLength.value + 2
+  }
   showList.value = list.value.slice(startIndex.value, endIndex.value)
 }
 const rsOb = new ResizeObserver((() => {
@@ -113,7 +115,7 @@ onMounted(() => {
   height: 100%;
   overflow-y:auto ;
   .gu-virtual-list{
-    height:v-bind(totalHeightPx);
+    height:calc(v-bind(totalHeightPx) * 1px);
     padding: 0;
     margin: 0;
     .gu-virtual-list-item{

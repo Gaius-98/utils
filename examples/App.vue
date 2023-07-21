@@ -45,7 +45,7 @@ const dialog = new Dialog({
   </div>
   <gu-virtual-list
     :list="arr"
-    style="height:240px"
+    style="height:250px"
     :item-height="20"
     class="test"
   >
