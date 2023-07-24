@@ -197,8 +197,12 @@ onMounted(() => {
   &:hover{
     background-color: rgba(119, 221, 178, 0.3);
     cursor: move;
+    .resize-node{
+      display: block;
+    }
   }
   .resize-node{
+    display: none;
     box-sizing: border-box;
     position: absolute;
     bottom: 10px;
