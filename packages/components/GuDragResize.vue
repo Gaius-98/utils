@@ -23,28 +23,28 @@
 <script lang='ts' setup name="GuDragResize">
 import { toRefs, ref, onMounted, watch } from 'vue'
 import { v4 as uuid } from 'uuid'
-import { dragResizePropsInit } from '../../types/dragResize'
 
-export interface Props {
+interface Props {
   nodeKey?:string|number,
   minh?:number,
   minw?:number,
   disabled?:boolean|string,
-  config?:dragResizePropsInit
+  width?:number,
+  height?:number,
+  top?:number,
+  left?:number,
 }
 const props = withDefaults(defineProps<Props>(), {
   nodeKey: uuid(),
   minh: 10,
   minw: 10,
   disabled: false,
-  config: () => ({
-    width: 100,
-    height: 100,
-    top: 0,
-    left: 0,
-  }),
+  width: 100,
+  height: 100,
+  top: 0,
+  left: 0,
 })
-const { nodeKey, minh, minw, config, disabled } = toRefs(props)
+const { nodeKey, minh, minw, disabled, height, width, left, top } = toRefs(props)
 const dragResize = ref()
 const emits = defineEmits(['onDragResize'])
 const onDrag = (e:MouseEvent) => {
@@ -152,11 +152,11 @@ const judgeDisabled = (disabled:boolean|string, type:'drag'|'resize') => {
 }
 const setPositonSize = () => {
   dragResize.value.parentElement.style.position = 'relative'
-  dragResize.value.style.height = config.value.height + 'px'
-  dragResize.value.style.width = config.value.width + 'px'
-  dragResize.value.style.transform = `translate3d(${config.value.left}px, ${config.value.top}px,0)`
+  dragResize.value.style.height = height.value + 'px'
+  dragResize.value.style.width = width.value + 'px'
+  dragResize.value.style.transform = `translate3d(${left.value}px, ${top.value}px,0)`
 }
-watch(config.value, () => {
+watch(() => [left.value, top.value, width.value, height.value], () => {
   setPositonSize()
 })
 onMounted(() => {

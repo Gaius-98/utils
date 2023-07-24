@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import { GuChart, scrollToDom, GuVirtualList, Dialog } from '../packages/index'
 import option from './chart.json'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 const testFunc = () => {
+  config.positionSize.width = 500
+  config.positionSize.left = 0
   scrollToDom(
     document.querySelector('.listval5') as Element,
     document.querySelector('.test') as Element,
   )
 }
-
+const config = reactive({
+  positionSize: {
+    left: 100,
+    top: 100,
+    width: 200,
+    height: 200,
+  },
+})
 const arr = ref<any[]>([])
 arr.value = new Array(20000).fill(1).map((item, idx) => ({
   label: 'label' + idx,
@@ -38,7 +47,7 @@ const dialog = new Dialog({
     style="width:400px;height:200px;border:1px solid #ccc"
     @click="testFunc"
   >
-    <gu-drag-resize>
+    <gu-drag-resize v-bind="config.positionSize">
       <gu-chart :insert-option="option">
       </gu-chart>
     </gu-drag-resize>

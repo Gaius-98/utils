@@ -18,7 +18,10 @@ methods:{
 nodeKey | 组件的key |  uuid() | number/string|
 minh | 最小高度 | 10 | number|
 minw | 最小高度 | 10 | number|
-config | 位置及大小信息 | {width: 100,height: 100,top: 0,left: 0,}|object|外部控制宽高及位置信息
+width | 宽度 | 100 |number|组件宽度
+height | 高度 | 100 |number|组件高度
+top | 顶部距离  | 0 |number|
+left | 左侧距离 | 0 |number|
 disabled|禁止拖拽和放大缩小|false|boolean/string|true,false 控制整个组件的拖拽或放大缩小,当你只需要禁用一个时，可通过传入：'drag'/'resize'来禁用某一项功能
 
 #### events

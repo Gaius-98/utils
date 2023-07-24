@@ -1,20 +1,18 @@
 export interface dragResizeProps {
-  activeColor:string,
-  minh:number,
-  minw:number,
-  nodeKey?:number|string,
-  init?:dragResizePropsInit
+  nodeKey?:string|number,
+  minh?:number,
+  minw?:number,
+  disabled?:boolean|string,
+  width?:number,
+  height?:number,
+  top?:number,
+  left?:number,
 }
-export interface dragResizePropsInit{
-  width?:number|string,
-  height?:number|string,
-  top?:number|string,
-  left?:number|string,
-}
+
 export interface dragResizeData{
-  width?:number|string,
-  height?:number|string,
-  top?:number|string,
-  left?:number|string,
-  nodeKey?:number|string
+  width:string,
+  height:string,
+  top:string,
+  left:string,
+  nodeKey:number|string
 }
