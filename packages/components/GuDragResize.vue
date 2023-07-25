@@ -6,6 +6,12 @@
     @mousedown="onDrag"
   >
     <div class="drag-resize-container">
+      <div
+        v-if="status"
+        class="tip"
+      >
+        {{ tip }}
+      </div>
       <slot>
       </slot>
     </div>
@@ -21,7 +27,7 @@
 </template>
 
 <script lang='ts' setup name="GuDragResize">
-import { toRefs, ref, onMounted, watch } from 'vue'
+import { toRefs, ref, onMounted, watch, computed, reactive } from 'vue'
 import { v4 as uuid } from 'uuid'
 
 interface Props {
@@ -46,7 +52,19 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const { nodeKey, minh, minw, disabled, height, width, left, top } = toRefs(props)
 const dragResize = ref()
+const status = ref<string|null>(null)
 const emits = defineEmits(['onDragResize'])
+const point = reactive({
+  left: 0,
+  top: 0,
+  width: 0,
+  height: 0,
+})
+const tip = computed(() => {
+  const { left, top, width, height } = point
+  return status.value == 'drag' 
+    ? `[${left},${top}]` : `${height}*${width}`
+})
 const onDrag = (e:MouseEvent) => {
   if (!judgeDisabled(disabled.value, 'drag')) {
     const parentDom = dragResize.value.parentElement
@@ -58,6 +76,7 @@ const onDrag = (e:MouseEvent) => {
     e.preventDefault()
     // 边界设定
     document.onmousemove = function (e) {
+      status.value = 'drag'
       let x = e.clientX - disX
       let y = e.clientY - disY
       if (x < 0) {
@@ -70,12 +89,15 @@ const onDrag = (e:MouseEvent) => {
       } else if (y > (parentDom.clientHeight - dragResize.value.clientHeight)) {
         y = parentDom.clientHeight - dragResize.value.clientHeight
       }
+      point.left = x
+      point.top = y
       dragResize.value.style.transform = `translate3d(${x}px, ${y}px,0)`
     }
     document.onmouseup = function () {
       document.onmousemove = null
       document.onmouseup = null
       parentDom.style.position = oldPostion
+      status.value = null
       let { left, top } = transformToValue()
       emits('onDragResize', {
         left,
@@ -104,12 +126,15 @@ const onResize = () => {
       const currY = moveEvent.clientY
       const disY = currY - startY
       const disX = currX - startX
+      status.value = 'resize'
       const newHeight = (height + disY) > minh.value 
         ? (height + disY) > parentDom.clientHeight ? parentDom.clientHeight : (height + disY) 
         : minh.value
       const newWidth = (width + disX) > minw.value 
         ? (width + disX) > parentDom.clientWidth ? parentDom.clientWidth : (width + disX) 
         : minw.value
+      point.width = newWidth
+      point.height = newHeight
       dragResize.value.style.width = newWidth + 'px'
       dragResize.value.style.height = newHeight + 'px'
     }
@@ -118,6 +143,7 @@ const onResize = () => {
       document.removeEventListener('mousemove', move)
       document.removeEventListener('mouseup', up)
       let { left, top } = transformToValue()
+      status.value = null
       emits('onDragResize', {
         left,
         top,
@@ -175,6 +201,12 @@ onMounted(() => {
     height: 100%;
     z-index: 1;
     overflow: auto;
+    .tip{
+      position: absolute;
+      top: -20px;
+      left: 0;
+      font-size: 12px;
+    }
     &::-webkit-scrollbar {
         width: 5px;
         height: 5px;
