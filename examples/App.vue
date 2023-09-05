@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GuChart, scrollToDom, GuVirtualList, Dialog } from '../packages/index'
+import { GuChart, scrollToDom, GuVirtualList, GuDialog } from '../packages/index'
 import option from './chart.json'
 import { reactive, ref } from 'vue'
 
@@ -26,7 +26,7 @@ arr.value = new Array(20000).fill(1).map((item, idx) => ({
   key: 'key' + idx,
 }))
 
-const dialog = new Dialog({
+const dialog = new GuDialog({
   title: '测试',
   content: GuChart,
   size: 'default',
@@ -34,11 +34,15 @@ const dialog = new Dialog({
   componentProps: {
     insertOption: option,
   },
-  cb: (e:any) => {
-    console.log(e)
-    dialog.destroyed()
-  },
+  
 })
+const openDialog = () => {
+  console.log(dialog)
+  dialog.open().then(res => {
+    console.log(res)
+  })
+}
+console.log(dialog)
 </script>
 
 <template>
@@ -64,7 +68,7 @@ const dialog = new Dialog({
       </div>
     </template>
   </gu-virtual-list>
-  <button @click="dialog.create()">
+  <button @click="openDialog()">
     打开弹窗
   </button>
 </template>

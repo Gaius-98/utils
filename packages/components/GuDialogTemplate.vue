@@ -14,7 +14,7 @@
         </div>
         <div
           class="close"
-          @click="onCancel"
+          @click="cancel"
         >
           X
         </div>
@@ -33,13 +33,13 @@
         <div class="button-group">
           <div
             class="button primary"
-            @click="onConfirm"
+            @click="confirm"
           >
             确认
           </div>     
           <div
             class="button"
-            @click="onCancel"
+            @click="cancel"
           >
             取消
           </div> 
@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script lang='ts' setup name="guDialog">
+<script lang='ts' setup name="guDialogTemplate">
 import { toRefs, ref } from 'vue'
 import type { Component } from 'vue'
 
@@ -67,9 +67,20 @@ export interface GuDialogType {
   footer?:boolean,
   content:Component,
   componentProps:any,
-  cb:Function
+
 }
-const props = withDefaults(defineProps<GuDialogType>(), {
+export interface dialogType{
+  title:string,
+  size?:keyof typeof SizeType,
+  width?:number|undefined,
+  height?:number|undefined,
+  footer?:boolean,
+  content:Component,
+  componentProps:any,
+  onConfirm:Function,
+  onCancel:Function
+}
+const props = withDefaults(defineProps<dialogType>(), {
   title: '默认',
   size: 'default',
   footer: true,
@@ -77,21 +88,14 @@ const props = withDefaults(defineProps<GuDialogType>(), {
   height: undefined,
   componentProps: () => ({}),
 })
-const { title, content, cb, footer, size, height, width } = toRefs(props)
+const { title, content, footer, size, height, width, onConfirm, onCancel } = toRefs(props)
 const contentCompontent = ref()
 const emits = defineEmits([])
-const onConfirm = () => {
-  cb.value({
-    type: 'confirm',
-    ref: contentCompontent.value,
-  })
+const confirm = () => {
+  onConfirm.value(contentCompontent.value)
 }
-
-const onCancel = () => {
-  cb.value({
-    type: 'cancel',
-    ref: contentCompontent.value,
-  })
+const cancel = () => {
+  onCancel.value(contentCompontent.value)
 }
 </script>
 <style scoped lang='scss'>

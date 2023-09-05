@@ -1,8 +1,8 @@
-import GuDialog, { GuDialogType } from './GuDialog.vue'
+import GuDialogTempalte, { GuDialogType } from './GuDialogTemplate.vue'
 import { createApp } from 'vue'
 import type { Component } from 'vue'
 
-class Dialog {
+class GuDialog {
   title:string
 
   size:string
@@ -18,11 +18,9 @@ class Dialog {
   componentProps:any
 
   modal:any
-  
-  cb:Function
 
   constructor(obj:GuDialogType) {
-    const { title, size, width, height, footer, content, componentProps, cb } = obj
+    const { title, size, width, height, footer, content, componentProps } = obj
     this.title = title
     this.size = size || 'default'
     this.width = width
@@ -30,19 +28,21 @@ class Dialog {
     this.footer = footer || true
     this.content = content
     this.componentProps = componentProps
-    this.cb = cb
   }
 
-  create() {
-    this.modal = createApp(GuDialog, this.getOption()).mount(document.createElement('div')).$el
-    document.body.appendChild(this.modal)
+  open() {
+    let p = new Promise((resolve, reject) => {
+      this.modal = createApp(GuDialogTempalte, this.getOption(resolve)).mount(document.createElement('div')).$el
+      document.body.appendChild(this.modal)
+    })
+    return p
   }
 
   destroyed() {
     document.body.removeChild(this.modal)
   }
 
-  getOption() {
+  getOption(resolve) {
     return {
       title: this.title,
       size: this.size,
@@ -51,8 +51,21 @@ class Dialog {
       footer: this.footer,
       content: this.content,
       componentProps: this.componentProps,
-      cb: this.cb,
+      onConfirm: (res) => {
+        resolve({
+          data: res,
+          type: 'ok',
+        })
+        this.destroyed()
+      },
+      onCancel: (res) => {
+        resolve({
+          data: res,
+          type: 'cancel',
+        })
+        this.destroyed()
+      },
     }
   }
 }
-export default Dialog
+export default GuDialog
