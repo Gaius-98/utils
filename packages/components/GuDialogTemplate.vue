@@ -69,7 +69,7 @@ export interface GuDialogType {
   componentProps:any,
 
 }
-export interface dialogType{
+export interface DialogType{
   title:string,
   size?:keyof typeof SizeType,
   width?:number|undefined,
@@ -80,7 +80,7 @@ export interface dialogType{
   onConfirm:Function,
   onCancel:Function
 }
-const props = withDefaults(defineProps<dialogType>(), {
+const props = withDefaults(defineProps<DialogType>(), {
   title: '默认',
   size: 'default',
   footer: true,
