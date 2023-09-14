@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GuChart, scrollToDom, GuVirtualList, GuDialog, GuContextMenu } from '../packages/index'
+import { GuChart, scrollToDom, GuVirtualList, GuDialog } from '../packages/index'
 import option from './chart.json'
 import { reactive, ref } from 'vue'
 
@@ -41,16 +41,6 @@ const openDialog = () => {
   dialog.open().then(res => {
     console.log(res)
   })
-}
-const menu = new GuContextMenu({
-  list: [{
-    label: '测试',
-    value: 'test',
-  }],
-})
-menu.createMenu()
-const onTest = () => {
-  menu.show()
 }
 console.log(dialog)
 </script>
