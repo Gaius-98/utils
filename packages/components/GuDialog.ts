@@ -42,7 +42,7 @@ class GuDialog {
     document.body.removeChild(this.modal)
   }
 
-  getOption(resolve) {
+  getOption(resolve:Function) {
     return {
       title: this.title,
       size: this.size,
@@ -51,14 +51,14 @@ class GuDialog {
       footer: this.footer,
       content: this.content,
       componentProps: this.componentProps,
-      onConfirm: (res) => {
+      onConfirm: (res:any) => {
         resolve({
           data: res,
           type: 'ok',
         })
         this.destroyed()
       },
-      onCancel: (res) => {
+      onCancel: (res:any) => {
         resolve({
           data: res,
           type: 'cancel',

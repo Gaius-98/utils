@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 })
 const { itemHeight, list, replaceField: propField } = toRefs(props)
-const totalHeightPx = computed(() => itemHeight.value * list.value.length - scrollTop.value)
+const totalHeightPx = computed(() => `${itemHeight.value * list.value.length - scrollTop.value}px`)
 
 const field = computed(() => ({
   ...defaultField,
@@ -115,7 +115,7 @@ onMounted(() => {
   height: 100%;
   overflow-y:auto ;
   .gu-virtual-list{
-    height:calc(v-bind(totalHeightPx) * 1px);
+    height:totalHeightPx;
     padding: 0;
     margin: 0;
     .gu-virtual-list-item{
