@@ -5,6 +5,7 @@ import GuDialog from './components/GuDialog'
 import GuDragResize from './components/GuDragResize.vue'
 import GuChart from './components/GuChart.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
+import GuResObserver from './share/GuObserver'
 
 const directives = import.meta.glob('./directives/*.ts', { eager: true })
 const compModules = import.meta.glob('./components/*.vue', { eager: true })
@@ -29,6 +30,7 @@ export {
   GuVirtualList,
   copy,
   GuDialog,
+  GuResObserver,
 }
 
 export default { install }

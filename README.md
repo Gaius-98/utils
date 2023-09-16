@@ -26,3 +26,6 @@ npm i gaius-utils
 ## functions
   [functions](./docs/functions/fns.md)
 ## hooks
+
+## share
+ 1. [GuResObserver](./docs/share/GuResObserver.md)

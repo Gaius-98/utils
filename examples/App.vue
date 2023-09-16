@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import GuResObserver from '../packages/share/GuObserver'
 import { GuChart, scrollToDom, GuVirtualList, GuDialog } from '../packages/index'
 import option from './chart.json'
 import { reactive, ref } from 'vue'
 
 const testFunc = () => {
+  ob.obj.test++
+  ob.obj.test2++
+  console.log(ob.obj)
   config.positionSize.width = 500
   config.positionSize.left = 0
   scrollToDom(
@@ -42,10 +46,26 @@ const openDialog = () => {
     console.log(res)
   })
 }
-console.log(dialog)
+let obj1 = {
+
+}
+let lin = ({ newValue, oldValue }:{newValue:any, oldValue:any}) => {
+  console.log('第二次变更', newValue, oldValue)
+}
+const ob = new GuResObserver(obj1)
+ob.setWatchItem('test', ({ newValue, oldValue }:{newValue:any, oldValue:any}) => {
+  console.log('testChanged', newValue, oldValue)
+}, 2)
+ob.setWatchItem('test2', lin)
+ob.removeItem('test2', lin)
+console.log(ob, obj1)
 </script>
 
 <template>
+  <children :obj="obj1">
+  </children>
+  <children :obj="ob.obj">
+  </children>
   <div
     v-copy="'test'"
     style="width:400px;height:200px;border:1px solid #ccc"
