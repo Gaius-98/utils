@@ -20,6 +20,7 @@ ob.obj.test1++
 obj|监听对象|-|Object
 #### ovserver实例的属性
 属性名|说明
+--|----
 obj|通过更改实例上的此属性实现监听
 observer|发布者上存储的订阅名称及对应的方法
 #### observer实例的函数
