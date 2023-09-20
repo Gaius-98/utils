@@ -53,32 +53,23 @@
 import { toRefs, ref } from 'vue'
 import type { Component } from 'vue'
 
- enum SizeType{
-  small='small',
-  default='default',
-  large='large'
-}
-
-export interface GuDialogType {
-  title:string,
-  size?:keyof typeof SizeType,
-  width?:number|undefined,
-  height?:number|undefined,
-  footer?:boolean,
-  content:Component,
-  componentProps:any,
-
-}
-export interface DialogType{
-  title:string,
-  size?:keyof typeof SizeType,
-  width?:number|undefined,
-  height?:number|undefined,
-  footer?:boolean,
-  content:Component,
-  componentProps:any,
-  onConfirm:Function,
-  onCancel:Function
+enum SizeType{
+    small='small',
+    default='default',
+    large='large'
+  }
+ interface GuDialogType {
+    title:string,
+    size?:keyof typeof SizeType,
+    width?:number|undefined,
+    height?:number|undefined,
+    footer?:boolean,
+    content:Component,
+    componentProps:any,
+  }
+interface DialogType extends GuDialogType{
+    onConfirm:Function,
+    onCancel:Function
 }
 const props = withDefaults(defineProps<DialogType>(), {
   title: '默认',

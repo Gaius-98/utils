@@ -1,6 +1,7 @@
-import GuDialogTempalte, { GuDialogType } from './GuDialogTemplate.vue'
+import GuDialogTempalte from './GuDialogTemplate.vue'
 import { createApp } from 'vue'
 import type { Component } from 'vue'
+import { GuDialogType } from '../../types/dialog'
 
 class GuDialog {
   title:string

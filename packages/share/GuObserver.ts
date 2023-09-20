@@ -1,25 +1,26 @@
-interface WatchValue{
-    newValue:any,
-    oldValue:any
-}
-interface ResOb {
-    [key:string]:any
-}
+import { WatchValue, ResOb } from '../../types/share'
+import { obj } from '../../types/common'
 /**
  * base Observer watch obj  to do something
  */
 class GuResObserver {
+  /**
+   * 响应对象
+   */
   obj:ResOb
 
+  /**
+   * 监听事件对象
+   */
   observer:Map<string, Set<Function>>
 
-  constructor(obj:Object) {
+  constructor(obj:obj) {
     let self = this
     this.obj = new Proxy(obj, {
-      get(target, key) {
+      get(target, key:string) {
         return target[key]
       },
-      set(target, key, value) {
+      set(target, key:string, value) {
         let oldValue = target[key]
         if (target[key] != value) {
           target[key] = value
@@ -36,24 +37,24 @@ class GuResObserver {
 
   setWatchItem(key:string, callback:Function, defaultValue?:any) {
     this.obj[key] = defaultValue || this.obj[key] || null
-    if (this.observer[key]) {
-      this.observer[key] = this.observer[key].add(callback)
+    if (this.observer.get(key)) {
+      this.observer.set(key, this.observer.get(key)!.add(callback))
     } else {
-      this.observer[key] = new Set([callback])
+      this.observer.set(key, new Set([callback]))
     }
   }
 
   runWatch(key:string, val:WatchValue) {
-    if (this.observer[key]) {
-      this.observer[key].forEach((cb:Function) => {
+    if (this.observer.get(key)) {
+      this.observer.get(key)!.forEach((cb:Function) => {
         cb(val)
       })
     }
   }
 
   removeItem(key:string, callback:Function) {
-    if (this.observer[key]) {
-      this.observer[key].delete(callback)
+    if (this.observer.get(key)) {
+      this.observer.get(key)!.delete(callback)
     }
   }
 }
