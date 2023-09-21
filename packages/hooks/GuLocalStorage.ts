@@ -12,7 +12,7 @@ interface opt {
  * @param opts 
  * @returns 
  */
-const useObserverLocalStorage = (initObj:obj, callback:Function, opts:opt = {
+const useGuLocalStorage = (initObj:obj, callback:Function, opts:opt = {
   name: 'Gaius',
 }) => {
   let init = new Proxy(initObj, {
@@ -49,4 +49,4 @@ const useObserverLocalStorage = (initObj:obj, callback:Function, opts:opt = {
     init,
   }
 }
-export default useObserverLocalStorage
+export default useGuLocalStorage
