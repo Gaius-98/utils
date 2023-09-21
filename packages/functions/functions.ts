@@ -164,6 +164,23 @@ const unflat = (obj:obj) => {
   })
   return res
 }
+
+/**
+ * 生成一个指定长度的hash字符串，默认长度为8
+ * @param length 生成的hash长度
+ * @returns 
+ */
+const generateHash = (length = 8) => {
+  let hash = ''  
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'  
+  
+  for (let i = 0; i < length; i++) {  
+    const randomIndex = Math.floor(Math.random() * characters.length)  
+    hash += characters[randomIndex]  
+  }  
+  
+  return hash 
+}
 export { 
   scrollToDom,
   getVarType,
@@ -171,4 +188,5 @@ export {
   getUpperCase,
   flat,
   unflat,
+  generateHash,
 }
