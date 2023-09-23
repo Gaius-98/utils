@@ -5,3 +5,7 @@ export interface WatchValue{
 export interface ResOb {
     [key:string]:any
 }
+
+export interface guLocalOpts {
+    destroyAfterClear?:boolean
+}

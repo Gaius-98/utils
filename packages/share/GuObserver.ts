@@ -1,7 +1,7 @@
 import { WatchValue, ResOb } from '../../types/share'
 import { obj } from '../../types/common'
 /**
- * base Observer watch obj  to do something
+ * base #observer watch obj  to do something
  */
 class GuResObserver {
   /**
@@ -12,7 +12,7 @@ class GuResObserver {
   /**
    * 监听事件对象
    */
-  observer:Map<string, Set<Function>>
+  #observer:Map<string, Set<Function>>
 
   constructor(obj:obj) {
     let self = this
@@ -24,7 +24,7 @@ class GuResObserver {
         let oldValue = target[key]
         if (target[key] != value) {
           target[key] = value
-          self.runWatch(key as string, {
+          self.#runWatch(key as string, {
             newValue: value,
             oldValue,
           })
@@ -32,29 +32,29 @@ class GuResObserver {
         return true
       },
     })
-    this.observer = new Map()
+    this.#observer = new Map()
   }
 
   setWatchItem(key:string, callback:Function, defaultValue?:any) {
     this.obj[key] = defaultValue || this.obj[key] || null
-    if (this.observer.get(key)) {
-      this.observer.set(key, this.observer.get(key)!.add(callback))
+    if (this.#observer.get(key)) {
+      this.#observer.set(key, this.#observer.get(key)!.add(callback))
     } else {
-      this.observer.set(key, new Set([callback]))
+      this.#observer.set(key, new Set([callback]))
     }
   }
 
-  runWatch(key:string, val:WatchValue) {
-    if (this.observer.get(key)) {
-      this.observer.get(key)!.forEach((cb:Function) => {
+  #runWatch(key:string, val:WatchValue) {
+    if (this.#observer.get(key)) {
+      this.#observer.get(key)!.forEach((cb:Function) => {
         cb(val)
       })
     }
   }
 
   removeItem(key:string, callback:Function) {
-    if (this.observer.get(key)) {
-      this.observer.get(key)!.delete(callback)
+    if (this.#observer.get(key)) {
+      this.#observer.get(key)!.delete(callback)
     }
   }
 }
