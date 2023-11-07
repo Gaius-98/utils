@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script lang='ts' setup name="guDialogTemplate">
+<script lang='ts' setup name="GuDialogTemplate">
 import { toRefs, ref } from 'vue'
 import type { Component } from 'vue'
 

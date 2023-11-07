@@ -19,7 +19,6 @@ npm i gaius-utils
   1. [GuChart](./docs/components/GuChart.md)
   2. [GuDragResize](./docs/components/GuDragReszie.md)
   3. [GuVirtualList](./docs/components/GuVirtualList.md)
-  4. [GuDialog](./docs/components/GuDialog.md)
 ## directives
   1. [v-copy](./docs/directions/copy.md)
   2. [v-lazy-img](./docs/directions/lazyImg.md)
@@ -27,5 +26,3 @@ npm i gaius-utils
   [functions](./docs/functions/fns.md)
 ## hooks
   [hooks](./docs//hooks/hooks.md)
-## share
- 1. [GuResObserver](./docs/share/GuResObserver.md)

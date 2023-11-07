@@ -1,17 +1,17 @@
 <template>
-  {{ test.value }}
+  {{ text }}
 </template>
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref } from 'vue'
-import { watchItem } from '../index'
 
-const test = ref({
-  value: 1,
+export interface Props {
+  text:String
+}
+const props = withDefaults(defineProps<Props>(), {
+  text: 1,
 })
-watchItem('test', ({ newValue, oldValue }) => {
-  test.value.value = newValue
-})
+const { text } = toRefs(props)
 </script>
 <style scoped lang='scss'>
 </style>

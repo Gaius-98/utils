@@ -1,17 +1,41 @@
 <template>
-  <input
-    v-model="observer.test"
-    type="text"
-  >
-  {{ observer.test }}
-  <button @click="observer.test ++">
-    +++
+  <button @click="open">
+    open
+  </button>
+  <button @click="open1">
+    ++
   </button>
 </template>
 <script setup lang="ts">
-
+import useGuDialog from '../packages/hooks/useGuDialog'
 import { observer } from './index'
+import children from './components/children.vue'
+import { reactive, ref } from 'vue'
 
+const info = ref(123)
+const propsObj = reactive({
+  text: 'info',
+})
+const dialog = useGuDialog({
+  title: 'ces',
+  componentProps: propsObj,
+  content: children,
+})
+const dialog1 = useGuDialog({
+  title: '测试',
+  componentProps: {
+    text: info.value,
+  },
+  content: children,
+})
+const open = () => {
+  dialog.open().then(res => {
+    console.log(res)
+  })
+}
+const open1 = () => {
+  dialog1.open()
+}
 </script>
 
 <style scoped lang="scss">
