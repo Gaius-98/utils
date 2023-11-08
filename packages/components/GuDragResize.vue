@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
 const { nodeKey, minh, minw, disabled, height, width, left, top } = toRefs(props)
 const dragResize = ref()
 const status = ref<string|null>(null)
-const emits = defineEmits(['onDragResize'])
+const emits = defineEmits(['onDragResize', 'onDrag', 'onResize'])
 const point = reactive({
   left: 0,
   top: 0,
@@ -92,6 +92,13 @@ const onDrag = (e:MouseEvent) => {
       point.left = x
       point.top = y
       dragResize.value.style.transform = `translate3d(${x}px, ${y}px,0)`
+      emits('onDrag', {
+        left: x,
+        top: y,
+        height: dragResize.value.style.height,
+        width: dragResize.value.style.width,
+        nodeKey: nodeKey.value,
+      })
     }
     document.onmouseup = function () {
       document.onmousemove = null
@@ -137,6 +144,14 @@ const onResize = () => {
       point.height = newHeight
       dragResize.value.style.width = newWidth + 'px'
       dragResize.value.style.height = newHeight + 'px'
+      let { left, top } = transformToValue()
+      emits('onResize', {
+        left,
+        top,
+        height: dragResize.value.style.height,
+        width: dragResize.value.style.width,
+        nodeKey: nodeKey.value,
+      })
     }
 
     const up = () => {

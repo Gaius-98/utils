@@ -28,3 +28,5 @@ disabled|禁止拖拽和放大缩小|false|boolean/string|true,false 控制整�
 函数名|描述
 --|--
 onDragResize|拖拽或设置大小后抛出的事件 包含当前组件的位置及大小信息及nodeKey
+onDrag|设置位置时抛出的事件 包含当前组件的位置及大小信息及nodeKey
+onResize|设置大小时抛出的事件 包含当前组件的位置及大小信息及nodeKey
