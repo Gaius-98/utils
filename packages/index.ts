@@ -18,8 +18,6 @@ const install = (app:App) => {
   }
   for (const path in compModules) {
     const module:any = compModules[path]
-    module.default.props.version = '5'
-    console.log(module.default)
     app.component(module.default.name, module.default)
   }
 }
