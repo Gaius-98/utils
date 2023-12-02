@@ -82,10 +82,13 @@ class GuLocalStorage {
     localStorage.setItem(key, JSON.stringify(obj))
   }
 
-  getItem(key:string):obj {
+  getItem(key:string):obj|undefined {
     const strObj = JSON.parse(localStorage.getItem(key) as string)
-    const realObj = strObjToObj(strObj)
-    return realObj[key]
+    if (strObj) {
+      const realObj = strObjToObj(strObj)
+      return realObj ? realObj[key] : undefined
+    }
+    return undefined
   }
 
   removeItem(key:string) {
