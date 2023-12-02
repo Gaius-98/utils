@@ -1,13 +1,13 @@
-import { createApp } from 'vue'
-import type{ GuDialogType } from '../components/GuDialogTemplate.vue'
-import GuDialogTemplate from '../components/GuDialogTemplate.vue'
+import { createApp, App } from 'vue'
+import GuDialogTemplate, { GuDialogType } from '../components/GuDialogTemplate.vue'
+
 /**
  * 使用hook的方式,打开一个弹窗
  * @param option 
  * @returns 
  */
 const useGuDialog = (option:GuDialogType) => {
-  let modalComp 
+  let modalComp:App
   const container = document.createElement('div')
 
   const destroyed = () => {

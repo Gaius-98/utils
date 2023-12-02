@@ -58,7 +58,7 @@ enum SizeType{
     default='default',
     large='large'
   }
- interface GuDialogType {
+export interface GuDialogType {
     title:string,
     size?:keyof typeof SizeType,
     width?:number|undefined,
