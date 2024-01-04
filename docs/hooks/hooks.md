@@ -83,10 +83,8 @@ watchItem('test', ({ newValue, oldValue }) => {
     componentProps:compProps
   })
   const openDialog = () => {
-    dialog.open().then(res=>{
+    dialog.open((res)=>{
       console.log(res)
-    }).catch(err=>{
-      console.log(err)
     })
   }
   ```

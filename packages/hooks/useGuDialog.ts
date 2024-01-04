@@ -15,32 +15,25 @@ const useGuDialog = (option:GuDialogType) => {
     document.body.removeChild(container)
   }
   
-  const open = () => {
-    let p = new Promise((resolve, reject) => {
-      try {
-        modalComp = createApp(GuDialogTemplate, {
-          ...option,
-          onConfirm: (res:any) => {
-            resolve({
-              type: 'ok',
-              data: res,
-            })
-          },
-          onCancel: (res:any) => {
-            resolve({
-              type: 'cancel',
-              data: res,
-            })
-            destroyed()
-          },
+  const open = (cb:Function) => {
+    modalComp = createApp(GuDialogTemplate, {
+      ...option,
+      onConfirm: (res:any) => {
+        cb({
+          type: 'ok',
+          data: res,
         })
-        modalComp.mount(container).$el
-        document.body.appendChild(container)
-      } catch (error) {
-        reject(error)
-      }
+      },
+      onCancel: (res:any) => {
+        cb({
+          type: 'cancel',
+          data: res,
+        })
+        destroyed()
+      },
     })
-    return p
+    modalComp.mount(container).$el
+    document.body.appendChild(container)
   }
   return {
     /**
