@@ -25,7 +25,6 @@ const useGuDialog = (option:GuDialogType) => {
               type: 'ok',
               data: res,
             })
-            destroyed()
           },
           onCancel: (res:any) => {
             resolve({

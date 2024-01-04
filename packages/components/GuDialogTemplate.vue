@@ -106,7 +106,7 @@ const cancel = () => {
   left: 50%;
   transform: translate(-50%,-50%);
   background: #fff;
-  border-radius: 2px;
+  border-radius: 3px;
   box-shadow: 0 1px 3px rgba(0,0,0,.3);
   z-index: 9999;
   &.default{
@@ -123,12 +123,13 @@ const cancel = () => {
   }
   
   .gu-header{
-    width: calc(100% - 20px);
+    width: calc(100% - 25px);
     padding: 10px;
     display: flex;
     justify-content: space-between;
     .title{
-
+      font-size: 18px;
+      font-weight: 500;
     }
     .close{
       font-size: 16px;
@@ -138,8 +139,8 @@ const cancel = () => {
     }
   }
   .content{
-    width: calc(100% - 80px);
-    height: calc(100% - 80px);
+    width: calc(100% - 85px);
+    height: calc(100% - 85px);
     overflow: auto;
     margin: 0 auto;
   }
@@ -154,10 +155,13 @@ const cancel = () => {
         padding: 5px 15px;
         font-size: 14px;
         cursor: pointer;
-        box-shadow: 0 1px 3px rgba(0,0,0,.3);
+        /* box-shadow: 0 1px 3px rgba(0,0,0,.3); */
+        border-radius: 3px;
+        border: 1px solid #dcdfe6;
         &.primary{
           background: #409eff;
           color: #fff;
+          border: none;
         }
       }
 
