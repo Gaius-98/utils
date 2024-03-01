@@ -1,5 +1,7 @@
-const obServer = (el:any, src:string) => {
-  let lazyImageObserver = new IntersectionObserver(((entries, observer) => {
+import { BindType } from '../../types/utilsType'
+
+const obServer = (el:HTMLImageElement, src:string) => {
+  let lazyImageObserver = new IntersectionObserver(((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         el.src = src
@@ -13,8 +15,8 @@ const obServer = (el:any, src:string) => {
 const lazyImg = {
   name: 'lazy-img',
   options: {
-    mounted(el:HTMLElement, binding:any) {
-      obServer(el, binding.value)
+    mounted(el:HTMLElement, binding:BindType) {
+      obServer(el as HTMLImageElement, binding.value as string)
     },
   },
 }

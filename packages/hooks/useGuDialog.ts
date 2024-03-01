@@ -1,5 +1,6 @@
 import { createApp, App } from 'vue'
-import GuDialogTemplate, { GuDialogType } from '../components/GuDialogTemplate.vue'
+import GuDialogTemplate from '../components/GuDialogTemplate.vue'
+import { GuDialogType, CallBackFn } from '../../types/utilsType'
 
 /**
  * 使用hook的方式,打开一个弹窗
@@ -14,17 +15,16 @@ const useGuDialog = (option:GuDialogType) => {
     modalComp.unmount()
     document.body.removeChild(container)
   }
-  
-  const open = (cb:Function) => {
+  const open = (cb:CallBackFn) => {
     modalComp = createApp(GuDialogTemplate, {
       ...option,
-      onConfirm: (res:any) => {
+      onConfirm: (res:Record<'value', any>) => {
         cb({
           type: 'ok',
           data: res,
         })
       },
-      onCancel: (res:any) => {
+      onCancel: (res:Record<'value', any>) => {
         cb({
           type: 'cancel',
           data: res,

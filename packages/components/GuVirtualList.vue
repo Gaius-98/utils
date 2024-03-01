@@ -34,13 +34,19 @@
 
 <script lang='ts' setup name="GuVirtualList">
 import { toRefs, ref, computed, onMounted } from 'vue'
-import { vList, replaceField } from '../../types/virtualList'
-import { obj } from '../../types/common'
+import { Obj } from '../../types/utilsType'
 
-interface Props {
+export type ReplaceFieldType = {
+  children?:string,
+  value?:string,
+  label?:string,
+  key?:string,
+  [field:string]:any
+} 
+interface VirtualProps {
   itemHeight?:number,
-  list:vList,
-  replaceField?:replaceField
+  list:Obj[],
+  replaceField?: ReplaceFieldType
 }
 const defaultField = {
   children: 'children',
@@ -48,7 +54,7 @@ const defaultField = {
   label: 'label',
   key: 'key',
 }
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<VirtualProps>(), {
   itemHeight: 25,
   list: () => ([]),
   replaceField: () => ({
@@ -68,12 +74,12 @@ const field = computed(() => ({
 
 const active = ref('')
 const emits = defineEmits(['onClickItem'])
-const onClick = (item:obj) => {
+const onClick = (item:Obj) => {
   active.value = item[field.value.value]
   emits('onClickItem', item)
 }
 // 展示列表data
-const showList = ref<obj[]>([])
+const showList = ref<Obj[]>([])
 const guList = ref()
 // 裁剪数组开始项
 const startIndex = ref(0)

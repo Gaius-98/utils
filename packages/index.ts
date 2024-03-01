@@ -1,11 +1,8 @@
 import { App } from 'vue'
 import copy from './directives/copy'
-import { scrollToDom, getVarType, getLowerCase, getUpperCase } from './functions/functions'
+import { scrollToDom, getVarType, getLowerCase, getUpperCase, flat, unflat } from './functions/functions'
 import GuDragResize from './components/GuDragResize.vue'
-import GuChart from './components/GuChart.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
-import useGuLocalStorage from './hooks/useGuLocalStorage'
-import useGuObserver from './hooks/useGuObserver'
 import useGuDialog from './hooks/useGuDialog'
 
 const directives = import.meta.glob('./directives/*.ts', { eager: true })
@@ -27,12 +24,11 @@ export {
   getLowerCase,
   getUpperCase,
   GuDragResize,
-  GuChart,
   GuVirtualList,
   copy,
-  useGuObserver,
-  useGuLocalStorage,
   useGuDialog,
+  flat,
+  unflat,
 }
 
 export default { install }

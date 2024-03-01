@@ -20,6 +20,7 @@
         </div>
       </header>
       <div class="content">
+        {{ content }}
         <component
           :is="content"
           v-bind="componentProps"
@@ -50,36 +51,35 @@
 </template>
 
 <script lang='ts' setup name="GuDialogTemplate">
+import { Value } from 'sass'
 import { toRefs, ref } from 'vue'
 import type { Component } from 'vue'
 
 enum SizeType{
-    small='small',
-    default='default',
-    large='large'
-  }
-export interface GuDialogType {
+  small,
+  default,
+  large
+}
+
+export interface DialogType {
     title:string,
     size?:keyof typeof SizeType,
-    width?:number|undefined,
-    height?:number|undefined,
+    width?:number,
+    height?:number,
     footer?:boolean,
     content:Component,
     componentProps:any,
-  }
-interface DialogType extends GuDialogType{
-    onConfirm:Function,
-    onCancel:Function
+    onConfirm:(val:Record<'value', any>)=>void,
+    onCancel:(val:Record<'value', any>)=>void
 }
+
 const props = withDefaults(defineProps<DialogType>(), {
   title: '默认',
   size: 'default',
   footer: true,
-  width: undefined,
-  height: undefined,
   componentProps: () => ({}),
 })
-const { title, content, footer, size, height, width, onConfirm, onCancel } = toRefs(props)
+const { title, content, footer, size, height, width, onConfirm, onCancel, componentProps } = toRefs(props)
 const contentCompontent = ref()
 const emits = defineEmits([])
 const confirm = () => {

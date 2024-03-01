@@ -30,8 +30,7 @@
 import { toRefs, ref, onMounted, watch, computed, reactive } from 'vue'
 import { v4 as uuid } from 'uuid'
 
-interface Props {
-  nodeKey?:string|number,
+export interface DragResizeProps {
   minh?:number,
   minw?:number,
   disabled?:boolean|string,
@@ -39,8 +38,10 @@ interface Props {
   height?:number,
   top?:number,
   left?:number,
+  nodeKey?:number|string
 }
-const props = withDefaults(defineProps<Props>(), {
+type DragResizeData = Pick<Required<DragResizeProps>, 'height'|'width'|'top'|'left'|'nodeKey'>
+const props = withDefaults(defineProps<DragResizeProps>(), {
   nodeKey: uuid(),
   minh: 10,
   minw: 10,
@@ -71,8 +72,8 @@ const onDrag = (e:MouseEvent) => {
     let oldPostion = parentDom.style.position
     parentDom.style.position = 'relative'
     let { left: curX, top: curY } = transformToValue()
-    let disX = e.clientX - parseFloat(curX) || dragResize.value.offsetLeft
-    let disY = e.clientY - parseFloat(curY) || dragResize.value.offsetTop
+    let disX = e.clientX - parseFloat(curX.toString()) || dragResize.value.offsetLeft
+    let disY = e.clientY - parseFloat(curY.toString()) || dragResize.value.offsetTop
     e.preventDefault()
     // 边界设定
     document.onmousemove = function (e) {
@@ -106,7 +107,7 @@ const onDrag = (e:MouseEvent) => {
       parentDom.style.position = oldPostion
       status.value = null
       let { left, top } = transformToValue()
-      emits('onDragResize', {
+      emits('onDragResize', <DragResizeData>{
         left,
         top,
         height: dragResize.value.style.height,
@@ -174,9 +175,9 @@ const onResize = () => {
     console.warn('设置大小功能已被禁用')
   }
 }
-const transformToValue = ():{left:string, top:string} => {
+const transformToValue = ():{left:number, top:number} => {
   let reg = /(\d+px, \d+px)/
-  let [left, top] = dragResize.value.style.transform.match(reg)[0].split(',')
+  let [left, top]:[number, number] = dragResize.value.style.transform.match(reg)[0].split(',')
   return {
     left,
     top,

@@ -1,4 +1,4 @@
-import { obj } from '../../types/common'
+import { Obj } from '../../types/utilsType'
 /**
  * 滚动container 定位容器
  * @param container -- Element dom的容器
@@ -67,12 +67,12 @@ const getUpperCase = (word:string, startIndex = 0, endIndex = 1) => {
 
 /**
  * 对象扁平化
- * @params {obj} 要扁平化的对象
- * @return {obj} 扁平化后的对象+
+ * @params {Obj} 要扁平化的对象
+ * @return {Obj} 扁平化后的对象+
  * @example flat({ a:{ b:'1' } }) => {a.b:'1'}
  */
-const flat = (obj:obj) => {
-  const flatten = (res:obj, curObj:any, curKey:string) => {
+const flat = (obj:Obj) => {
+  const flatten = (res:Obj, curObj:any, curKey:string) => {
     // 判断当前项是否为数组
     if (Array.isArray(curObj)) {
       curObj.forEach((item, idx) => {
@@ -94,7 +94,7 @@ const flat = (obj:obj) => {
       })
     }
   }
-  const res:obj = {}
+  const res:Obj = {}
   Object.keys(obj).forEach(key => {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
       flatten(res, obj[key], key)
@@ -106,12 +106,12 @@ const flat = (obj:obj) => {
 }
 /**
  * 对象反扁平化
- * @params {obj} 扁平化的对象
- * @return {obj} 反扁平化的对象
+ * @params {Obj} 扁平化的对象
+ * @return {Obj} 反扁平化的对象
  * @example unflat({a.b:'1'}) => { a:{ b:'1' } }
  */
-const unflat = (obj:obj) => {
-  const unflatten = (key:string, value:any, res:obj) => {
+const unflat = (obj:Obj) => {
+  const unflatten = (key:string, value:any, res:Obj) => {
     const arr = key.split('.')
     let tmp = res
     for (let i = 0; i < arr.length; i++) {
@@ -158,7 +158,7 @@ const unflat = (obj:obj) => {
       }
     }
   }
-  const res:obj = {}
+  const res:Obj = {}
   Object.keys(obj).forEach(key => {
     unflatten(key, obj[key], res)
   })
@@ -173,7 +173,6 @@ const unflat = (obj:obj) => {
 const generateHash = (length = 8) => {
   let hash = ''  
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'  
-  
   for (let i = 0; i < length; i++) {  
     const randomIndex = Math.floor(Math.random() * characters.length)  
     hash += characters[randomIndex]  
