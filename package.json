@@ -1,7 +1,7 @@
 {
     "name": "gaius-utils",
     "private": false,
-    "version": "0.4.26",
+    "version": "0.4.27",
     "author": {
         "name": "WangGuoshuai",
         "email": "2388838628@qq.com"
@@ -38,7 +38,6 @@
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc --noEmit&& vite build",
-        "version": "node ./autoVersion",
         "preview": "vite preview"
     },
     "dependencies": {

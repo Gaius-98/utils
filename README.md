@@ -16,9 +16,8 @@ npm i gaius-utils
   import {xxx} from 'gaius-utils'
   ```
 ## components
-  1. [GuChart](./docs/components/GuChart.md)
-  2. [GuDragResize](./docs/components/GuDragReszie.md)
-  3. [GuVirtualList](./docs/components/GuVirtualList.md)
+  1. [GuDragResize](./docs/components/GuDragReszie.md)
+  2. [GuVirtualList](./docs/components/GuVirtualList.md)
 ## directives
   1. [v-copy](./docs/directions/copy.md)
   2. [v-lazy-img](./docs/directions/lazyImg.md)
