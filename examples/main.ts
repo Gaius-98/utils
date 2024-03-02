@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import plugin from '../lib/utils'
+// import plugin from '../lib/utils'
 import '../lib/style.css'
 
-createApp(App).use(plugin).mount('#app')
+createApp(App).mount('#app')

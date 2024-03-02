@@ -9,7 +9,7 @@
       class="gu-virtual-list"
       :style="{
         paddingTop:scrollTop + 'px',
-        height:totalHeightPx
+        height:ListHeight + 'px'
       }"
     >
       <li
@@ -66,7 +66,7 @@ const props = withDefaults(defineProps<VirtualProps>(), {
   }),
 })
 const { itemHeight, list, replaceField: propField } = toRefs(props)
-const totalHeightPx = computed(() => `${itemHeight.value * list.value.length - scrollTop.value}px`)
+const ListHeight = computed(() => itemHeight.value * list.value.length - scrollTop.value)
 
 const field = computed(() => ({
   ...defaultField,
@@ -95,13 +95,13 @@ const virtualList = ref()
 const onScroll = () => {
   const { height } = guList.value.getBoundingClientRect()
   scrollTop.value = guList.value.scrollTop
-  guList.value.style.paddingTop = scrollTop
+  guList.value.style.paddingTop = scrollTop.value
   needShowLength.value = Math.floor(height / itemHeight.value)
   startIndex.value = Math.floor((scrollTop.value) / itemHeight.value)
-  endIndex.value = Math.floor((startIndex.value + needShowLength.value + 2))
+  endIndex.value = Math.floor((startIndex.value + needShowLength.value))
   if (endIndex.value >= list.value.length) {
     endIndex.value = list.value.length
-    startIndex.value = endIndex.value - needShowLength.value + 2
+    startIndex.value = endIndex.value - needShowLength.value
   }
   showList.value = list.value.slice(startIndex.value, endIndex.value)
 }
@@ -127,7 +127,7 @@ onMounted(() => {
     .gu-virtual-list-item{
       list-style: none;
       cursor: pointer;
-      padding: 2px 5px;
+      padding: 0px 5px;
       &.active{
         background: rgba(24,144,255,.8);
         color: #fff;
