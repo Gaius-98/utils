@@ -8,7 +8,8 @@
       ref="virtualList" 
       class="gu-virtual-list"
       :style="{
-        paddingTop:scrollTop + 'px'
+        paddingTop:scrollTop + 'px',
+        height:totalHeightPx
       }"
     >
       <li
@@ -121,7 +122,6 @@ onMounted(() => {
   height: 100%;
   overflow-y:auto ;
   .gu-virtual-list{
-    height:totalHeightPx;
     padding: 0;
     margin: 0;
     .gu-virtual-list-item{
