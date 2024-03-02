@@ -5,6 +5,7 @@ import GuDragResize from './components/GuDragResize.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
 import useGuDialog from './hooks/useGuDialog'
 
+export * from '../types/utilsType'
 const directives = import.meta.glob('./directives/*.ts', { eager: true })
 const compModules = import.meta.glob('./components/*.vue', { eager: true })
 
