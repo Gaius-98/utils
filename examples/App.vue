@@ -1,5 +1,5 @@
 <template>
-  <div style="width:200px;height: 500px;">
+  <div style="width:200px;height: 40vh;">
     <gu-virtual-list :list="arr"></gu-virtual-list>
   </div>
 </template>

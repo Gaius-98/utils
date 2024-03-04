@@ -8,7 +8,7 @@
       ref="virtualList" 
       class="gu-virtual-list"
       :style="{
-        paddingTop:scrollTop + 'px',
+        paddingTop:paddingTop + 'px',
         height:ListHeight + 'px'
       }"
     >
@@ -88,19 +88,22 @@ const startIndex = ref(0)
 const endIndex = ref(0)
 // 计算需要展示的元素个数
 const needShowLength = ref(0)
-// 容器scrollTop
-const scrollTop = ref(0)
+// 容器的paddingTop随动
+const paddingTop = ref(0)
 const timer = ref(0)
 const virtualList = ref()
 const onScroll = () => {
   const { height } = guList.value.getBoundingClientRect()
-  scrollTop.value = guList.value.scrollTop
-  guList.value.style.paddingTop = scrollTop.value
-  needShowLength.value = Math.floor(height / itemHeight.value)
-  startIndex.value = Math.floor((scrollTop.value) / itemHeight.value)
-  endIndex.value = Math.floor((startIndex.value + needShowLength.value))
+  paddingTop.value = guList.value.scrollTop
+  guList.value.style.paddingTop = paddingTop.value
+  needShowLength.value = Math.ceil(height / itemHeight.value)
+  startIndex.value = Math.floor((paddingTop.value) / itemHeight.value)
+  endIndex.value = startIndex.value + needShowLength.value
   if (endIndex.value >= list.value.length) {
     endIndex.value = list.value.length
+    guList.value.scrollTop = itemHeight.value * list.value.length - height
+    let diff = needShowLength.value * itemHeight.value - height
+    paddingTop.value = itemHeight.value * list.value.length - height - diff
     startIndex.value = endIndex.value - needShowLength.value
   }
   showList.value = list.value.slice(startIndex.value, endIndex.value)
