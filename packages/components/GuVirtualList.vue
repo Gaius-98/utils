@@ -66,7 +66,7 @@ const props = withDefaults(defineProps<VirtualProps>(), {
   }),
 })
 const { itemHeight, list, replaceField: propField } = toRefs(props)
-const ListHeight = computed(() => itemHeight.value * list.value.length - scrollTop.value)
+const ListHeight = computed(() => itemHeight.value * list.value.length - paddingTop.value)
 
 const field = computed(() => ({
   ...defaultField,
