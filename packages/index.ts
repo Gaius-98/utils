@@ -3,6 +3,7 @@ import copy from './directives/copy'
 import { scrollToDom, getVarType, getLowerCase, getUpperCase, flat, unflat } from './functions/functions'
 import GuDragResize from './components/GuDragResize.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
+import GuDynamicHeightList from './components/GuDynamicHeightList.vue'
 import useGuDialog from './hooks/useGuDialog'
 
 export * from '../types/utilsType'
@@ -26,10 +27,12 @@ export {
   getUpperCase,
   GuDragResize,
   GuVirtualList,
+  GuDynamicHeightList,
   copy,
   useGuDialog,
   flat,
   unflat,
+  
 }
 
 export default { install }

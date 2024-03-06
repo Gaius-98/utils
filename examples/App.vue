@@ -1,10 +1,13 @@
 <template>
   <div style="width:200px;height: 40vh;">
-    <gu-test-list :list="arr"></gu-test-list>
+    <gu-dynamic-height-list
+      :list="arr"
+      :pre-height="30"
+    ></gu-dynamic-height-list>
   </div>
 </template>
 <script setup lang="ts">
-import GuTestList from '../packages/components/GuTestList.vue'
+import GuDynamicHeightList from '../packages/components/GuDynamicHeightList.vue'
 import { generateHash } from '../packages/functions/functions'
 
 const arr = new Array(40000).fill(0).map((e, idx) => ({

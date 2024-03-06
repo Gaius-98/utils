@@ -34,8 +34,8 @@
   </div>
 </template>
   
-<script lang='ts' setup name="GuTestList">
-import { toRefs, ref, computed, onMounted, onUpdated } from 'vue'
+<script lang='ts' setup name="GuDynamicHeightList">
+import { toRefs, ref, computed, onMounted } from 'vue'
 import { Obj } from '../../types/utilsType'
   
 export type ReplaceFieldType = {
@@ -69,7 +69,10 @@ const props = withDefaults(defineProps<VirtualProps>(), {
 const { list, replaceField: propField, preHeight } = toRefs(props)
 // 所有项的真实高度
 const allHeightList = ref<number[]>([])
-const knownHeight = computed(() => allHeightList.value.reduce((p, c) => p += c, 0))
+const knownHeight = computed(() => allHeightList.value.reduce((p, c) => {
+  p += c
+  return p
+}, 0))
 // 总高度
 const ListHeight = computed(() => {
   let idx = allHeightList.value.length
@@ -96,8 +99,6 @@ const startIndex = ref(0)
 const endIndex = ref(0)
 // 计算需要展示的元素个数
 const needShowLength = ref(0)
-// 容器的paddingTop随动
-const paddingTop = ref(0)
 const timer = ref(0)
 const virtualList = ref()
 const scrollTop = ref(0)
@@ -117,7 +118,16 @@ const onScroll = () => {
       i++
     }
     startIndex.value = i - 1
-    endIndex.value = i + 10
+    if (knownHeight.value - res >= height) {
+      while (res <= scrollTop.value + height) {
+        res += allHeightList.value[i]
+        i++
+      }
+      endIndex.value = i
+    } else {
+      let defineLen = allHeightList.value.length - startIndex.value
+      endIndex.value = defineLen + Math.ceil(height - (knownHeight.value - res) / preHeight.value)
+    }
   }
   showList.value = list.value.slice(startIndex.value, endIndex.value)
 }
@@ -126,12 +136,17 @@ const setAllHeight = () => {
   for (let i = 0; i < nodes.length; i++) {
     let node = nodes[i]
     let idx = startIndex.value + Number(node.getAttribute('idx'))
-    allHeightList.value[idx] = node.clientHeight
+    if (idx > allHeightList.value.length - 1) {
+      allHeightList.value[idx] = node.clientHeight
+    }
   }
 }
 const reduceHeight = (idx:number) => {
   if (allHeightList.value.length > idx) {
-    return allHeightList.value.slice(0, idx).reduce((p, c) => p += c, 0)
+    return allHeightList.value.slice(0, idx).reduce((p, c) => {
+      p += c
+      return p
+    }, 0)
   }
   return knownHeight.value + (idx - allHeightList.value.length) * preHeight.value
 }
@@ -145,10 +160,6 @@ onMounted(() => {
   onScroll()
   rsOb.observe(guList.value)
 })
-// onUpdated(() => {
-//   console.log('----')
-//   setAllHeight()
-// })
 </script>
 <style scoped lang='scss'>
 .gu-list{
