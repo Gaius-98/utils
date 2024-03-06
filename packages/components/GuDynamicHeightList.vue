@@ -125,8 +125,7 @@ const onScroll = () => {
       }
       endIndex.value = i
     } else {
-      let defineLen = allHeightList.value.length - startIndex.value
-      endIndex.value = defineLen + Math.ceil(height - (knownHeight.value - res) / preHeight.value)
+      endIndex.value = allHeightList.value.length + Math.ceil(height - (knownHeight.value - res) / preHeight.value)
     }
   }
   showList.value = list.value.slice(startIndex.value, endIndex.value)
