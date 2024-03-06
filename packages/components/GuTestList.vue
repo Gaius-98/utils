@@ -8,18 +8,19 @@
       ref="virtualList" 
       class="gu-virtual-list"
       :style="{
-        paddingTop:paddingTop + 'px',
         height:ListHeight + 'px'
       }"
     >
       <li
-        v-for="item in showList"
+        v-for="(item,idx) in showList"
         :key="item[field.key]"
         class="gu-virtual-list-item"
-        :class="active == item[field.value] ? 'active' :''"
+        :class="[active == item[field.value] ? 'active' :'']"
         :style="{
-          height:itemHeight + 'px'
+          top:`${ reduceHeight(startIndex+idx) }px`
         }"
+        :idx="idx"
+        :startIdx="startIndex"
         @click="onClick(item)"
       >
         <slot
@@ -32,11 +33,11 @@
     </ul>
   </div>
 </template>
-
-<script lang='ts' setup name="GuVirtualList">
-import { toRefs, ref, computed, onMounted } from 'vue'
+  
+<script lang='ts' setup name="GuTestList">
+import { toRefs, ref, computed, onMounted, onUpdated } from 'vue'
 import { Obj } from '../../types/utilsType'
-
+  
 export type ReplaceFieldType = {
   children?:string,
   value?:string,
@@ -45,7 +46,7 @@ export type ReplaceFieldType = {
   [field:string]:any
 } 
 interface VirtualProps {
-  itemHeight?:number,
+  preHeight?:number,
   list:Obj[],
   replaceField?: ReplaceFieldType
 }
@@ -56,7 +57,7 @@ const defaultField = {
   key: 'key',
 }
 const props = withDefaults(defineProps<VirtualProps>(), {
-  itemHeight: 25,
+  preHeight: 26,
   list: () => ([]),
   replaceField: () => ({
     children: 'children',
@@ -65,14 +66,21 @@ const props = withDefaults(defineProps<VirtualProps>(), {
     key: 'key',
   }),
 })
-const { itemHeight, list, replaceField: propField } = toRefs(props)
-const ListHeight = computed(() => itemHeight.value * list.value.length - paddingTop.value)
-
+const { list, replaceField: propField, preHeight } = toRefs(props)
+// 所有项的真实高度
+const allHeightList = ref<number[]>([])
+const knownHeight = computed(() => allHeightList.value.reduce((p, c) => p += c, 0))
+// 总高度
+const ListHeight = computed(() => {
+  let idx = allHeightList.value.length
+  return knownHeight.value + (list.value.length - idx) * preHeight.value
+})
+  
 const field = computed(() => ({
   ...defaultField,
   ...propField.value,
 }))
-
+  
 const active = ref('')
 const emits = defineEmits(['onClickItem'])
 const onClick = (item:Obj) => {
@@ -92,23 +100,41 @@ const needShowLength = ref(0)
 const paddingTop = ref(0)
 const timer = ref(0)
 const virtualList = ref()
+const scrollTop = ref(0)
 const onScroll = () => {
+  setAllHeight()
   const { height } = guList.value.getBoundingClientRect()
-  paddingTop.value = guList.value.scrollTop
-  guList.value.style.paddingTop = paddingTop.value
-  needShowLength.value = Math.ceil(height / itemHeight.value)
-  startIndex.value = Math.floor((paddingTop.value) / itemHeight.value)
-  endIndex.value = startIndex.value + needShowLength.value
-  if (endIndex.value >= list.value.length) {
-    endIndex.value = list.value.length
-    guList.value.scrollTop = itemHeight.value * list.value.length - height
-    let diff = needShowLength.value * itemHeight.value - height
-    paddingTop.value = itemHeight.value * list.value.length - height - diff
-    startIndex.value = endIndex.value - needShowLength.value
+  scrollTop.value = guList.value.scrollTop
+  if (scrollTop.value + height > knownHeight.value) {
+    startIndex.value = allHeightList.value.length
+    needShowLength.value = Math.ceil(height / preHeight.value)
+    endIndex.value = startIndex.value + needShowLength.value
+  } else {
+    let i = 0
+    let res = 0
+    while (res <= scrollTop.value) {
+      res += allHeightList.value[i]
+      i++
+    }
+    startIndex.value = i - 1
+    endIndex.value = i + 10
   }
   showList.value = list.value.slice(startIndex.value, endIndex.value)
 }
-
+const setAllHeight = () => {
+  let nodes = document.querySelectorAll('.gu-virtual-list-item')
+  for (let i = 0; i < nodes.length; i++) {
+    let node = nodes[i]
+    let idx = startIndex.value + Number(node.getAttribute('idx'))
+    allHeightList.value[idx] = node.clientHeight
+  }
+}
+const reduceHeight = (idx:number) => {
+  if (allHeightList.value.length > idx) {
+    return allHeightList.value.slice(0, idx).reduce((p, c) => p += c, 0)
+  }
+  return knownHeight.value + (idx - allHeightList.value.length) * preHeight.value
+}
 const rsOb = new ResizeObserver((() => {
   if (timer.value) clearTimeout(timer.value)
   timer.value = window.setTimeout(() => {
@@ -119,6 +145,10 @@ onMounted(() => {
   onScroll()
   rsOb.observe(guList.value)
 })
+// onUpdated(() => {
+//   console.log('----')
+//   setAllHeight()
+// })
 </script>
 <style scoped lang='scss'>
 .gu-list{
@@ -126,12 +156,16 @@ onMounted(() => {
   height: 100%;
   overflow-y:auto ;
   .gu-virtual-list{
+    position: relative;
     padding: 0;
     margin: 0;
     .gu-virtual-list-item{
+      position: absolute;
       list-style: none;
       cursor: pointer;
       padding: 0px 5px;
+      word-break:break-all;
+      left:0;
       &.active{
         background: rgba(24,144,255,.8);
         color: #fff;

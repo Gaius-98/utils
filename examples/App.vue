@@ -1,13 +1,14 @@
 <template>
   <div style="width:200px;height: 40vh;">
-    <gu-virtual-list :list="arr"></gu-virtual-list>
+    <gu-test-list :list="arr"></gu-test-list>
   </div>
 </template>
 <script setup lang="ts">
-import GuVirtualList from '../packages/components/GuVirtualList.vue'
+import GuTestList from '../packages/components/GuTestList.vue'
+import { generateHash } from '../packages/functions/functions'
 
-const arr = new Array(400).fill(0).map((e, idx) => ({
-  label: 'item' + idx,
+const arr = new Array(40000).fill(0).map((e, idx) => ({
+  label: 'item' + generateHash(Math.random() * 100),
   value: idx,
   key: idx,
 }))
