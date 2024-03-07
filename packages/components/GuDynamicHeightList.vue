@@ -98,7 +98,6 @@ const startIndex = ref(0)
 const endIndex = ref(0)
 // 计算需要展示的元素个数
 const needShowLength = ref(0)
-const timer = ref(0)
 const virtualList = ref()
 const scrollTop = ref(0)
 const onScroll = () => {
