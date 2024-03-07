@@ -20,7 +20,6 @@
           top:`${ reduceHeight(startIndex+idx) }px`
         }"
         :idx="idx"
-        :startIdx="startIndex"
         @click="onClick(item)"
       >
         <slot
@@ -35,7 +34,7 @@
 </template>
   
 <script lang='ts' setup name="GuDynamicHeightList">
-import { toRefs, ref, computed, onMounted } from 'vue'
+import { toRefs, ref, computed, onMounted, onUpdated } from 'vue'
 import { Obj } from '../../types/utilsType'
   
 export type ReplaceFieldType = {
@@ -103,7 +102,6 @@ const timer = ref(0)
 const virtualList = ref()
 const scrollTop = ref(0)
 const onScroll = () => {
-  setAllHeight()
   const { height } = guList.value.getBoundingClientRect()
   scrollTop.value = guList.value.scrollTop
   if (scrollTop.value + height > knownHeight.value) {
@@ -149,15 +147,11 @@ const reduceHeight = (idx:number) => {
   }
   return knownHeight.value + (idx - allHeightList.value.length) * preHeight.value
 }
-const rsOb = new ResizeObserver((() => {
-  if (timer.value) clearTimeout(timer.value)
-  timer.value = window.setTimeout(() => {
-    onScroll()
-  }, 50)
-}))
 onMounted(() => {
   onScroll()
-  rsOb.observe(guList.value)
+})
+onUpdated(() => {
+  setAllHeight()
 })
 </script>
 <style scoped lang='scss'>
