@@ -5,6 +5,7 @@ import GuDragResize from './components/GuDragResize.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
 import GuDynamicHeightList from './components/GuDynamicHeightList.vue'
 import useGuDialog from './hooks/useGuDialog'
+import { GuPubSub } from './module/PubSub'
 
 export * from '../types/utilsType'
 const directives = import.meta.glob('./directives/*.ts', { eager: true })
@@ -32,7 +33,7 @@ export {
   useGuDialog,
   flat,
   unflat,
-  
+  GuPubSub,
 }
 
 export default { install }
