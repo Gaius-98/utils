@@ -42,7 +42,7 @@ export class GuPubSub implements PubSub {
     this._subscribers.set(eventName, callbacks)
   }
 
-  onPublish(eventName:string, ...args) {
+  onPublish(eventName:string, ...args:any[]) {
     let callbacks = this._subscribers.get(eventName)
     if (callbacks) {
       callbacks.map(callback => callback(...args))
@@ -50,7 +50,7 @@ export class GuPubSub implements PubSub {
   }
 
   once(eventName:string, callback:Fn) {
-    let onceFn = (...args) => { 
+    let onceFn = (...args:any[]) => { 
       callback(...args)
       this.unsubscribe(eventName, onceFn)
     }
