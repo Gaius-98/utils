@@ -16,12 +16,15 @@ npm i gaius-utils
   import {xxx} from 'gaius-utils'
   ```
 ## components
-  1. [GuDragResize](./docs/components/GuDragReszie.md)
+  1. [GuDragResize](./docs/components/GuDragResize.md)
   2. [GuVirtualList](./docs/components/GuVirtualList.md)
+  3. [GuDragResizePlus](./docs/components/GuDragResizePlus.md)
 ## directives
   1. [v-copy](./docs/directions/copy.md)
   2. [v-lazy-img](./docs/directions/lazyImg.md)
 ## functions
   [functions](./docs/functions/fns.md)
 ## hooks
-  [hooks](./docs//hooks/hooks.md)
+  [hooks](./docs/hooks/hooks.md)
+## module
+  [module](./docs/module/module.md)
