@@ -24,7 +24,6 @@ export default defineConfig({
         globals: {
           echarts: 'echarts',
           vue: 'Vue',
-          'vue-router': 'vue-router',
         },
       },
     },

@@ -4,6 +4,7 @@ import { scrollToDom, getVarType, getLowerCase, getUpperCase, flat, unflat } fro
 import GuDragResize from './components/GuDragResize.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
 import GuDynamicHeightList from './components/GuDynamicHeightList.vue'
+import GuDragResizePlus from './components/GuDragResizePlus.vue'
 import useGuDialog from './hooks/useGuDialog'
 import { GuPubSub } from './module/PubSub'
 
@@ -34,6 +35,7 @@ export {
   flat,
   unflat,
   GuPubSub,
+  GuDragResizePlus,
 }
 
 export default { install }

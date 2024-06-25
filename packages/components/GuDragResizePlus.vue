@@ -1,7 +1,11 @@
 <template>
   <div
     ref="guDragResizePlusRef"
-    class="gu-drag-resize-plus active"
+    class="gu-drag-resize-plus"
+    :class="{
+      disabled: disabled,
+      active: active,
+    }"
     @mousedown.stop="onDrag">
     <div class="container">
       <slot></slot>
@@ -16,8 +20,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs, ref, onMounted } from "vue";
+import { toRefs, ref, onMounted } from "vue";
 import { v4 as uuid } from "uuid";
+import { debounce } from "../utils";
 
 export interface DragResizeProps {
   minh?: number;
@@ -28,8 +33,7 @@ export interface DragResizeProps {
   top?: number;
   left?: number;
   nodeKey?: number | string;
-  scaleX: number;
-  scaleY: number;
+  active: boolean;
 }
 export interface ResizePoint {
   name: string;
@@ -51,8 +55,7 @@ const props = withDefaults(defineProps<DragResizeProps>(), {
   height: 100,
   top: 0,
   left: 0,
-  scaleX: 1,
-  scaleY: 1,
+  active: true,
 });
 const points = ref<ResizePoint[]>([
   {
@@ -73,19 +76,12 @@ const points = ref<ResizePoint[]>([
   },
 ]);
 
-const {
-  nodeKey,
-  minh,
-  minw,
-  disabled,
-  height,
-  width,
-  left,
-  top,
-  scaleX,
-  scaleY,
-} = toRefs(props);
+const { nodeKey, minh, minw, disabled, height, width, left, top } =
+  toRefs(props);
 const onResize = (event: MouseEvent, point: ResizePoint) => {
+  if (disabled.value) {
+    return;
+  }
   const { direction } = point;
   const startX = event.x;
   const startY = event.y;
@@ -119,16 +115,23 @@ const onResize = (event: MouseEvent, point: ResizePoint) => {
     }
     onUpdate(lastInfo);
   };
+  const debounceMove = (event: MouseEvent) => debounce(move, 10, event)();
   const up = () => {
-    document.removeEventListener("mousemove", move);
+    document.removeEventListener("mousemove", debounceMove);
     document.removeEventListener("mouseup", up);
   };
-  document.addEventListener("mousemove", move);
+
+  document.addEventListener("mousemove", debounceMove);
   document.addEventListener("mouseup", up);
 };
 const onDrag = (event: MouseEvent) => {
+  if (disabled.value) {
+    return;
+  }
   const startX = event.x;
   const startY = event.y;
+  const pWidth = guDragResizePlusRef.value!.parentElement!.offsetWidth;
+  const pHeight = guDragResizePlusRef.value!.parentElement!.offsetHeight;
   const { top, left, width, height } = getTransformValue(
     guDragResizePlusRef.value!
   );
@@ -139,17 +142,27 @@ const onDrag = (event: MouseEvent) => {
       left,
       height,
     };
-    const diffY = (event.y - startY) / scaleY.value;
-    const diffX = (event.x - startX) / scaleX.value;
-    lastInfo.left = left + diffX;
-    lastInfo.top = top + diffY;
+    const diffY = event.y - startY;
+    const diffX = event.x - startX;
+    if (left + diffX + width > pWidth) {
+      lastInfo.left = pWidth - width;
+    } else {
+      lastInfo.left = left + diffX;
+    }
+    if (top + diffY + height > pHeight) {
+      lastInfo.top = pHeight - height;
+    } else {
+      lastInfo.top = top + diffY;
+    }
+
     onUpdate(lastInfo);
   };
+  const debounceMove = (event: MouseEvent) => debounce(move, 10, event)();
   const up = () => {
-    document.removeEventListener("mousemove", move);
+    document.removeEventListener("mousemove", debounceMove);
     document.removeEventListener("mouseup", up);
   };
-  document.addEventListener("mousemove", move);
+  document.addEventListener("mousemove", debounceMove);
   document.addEventListener("mouseup", up);
 };
 const getTransformValue = (
@@ -169,8 +182,9 @@ const getTransformValue = (
     height: parseFloat(dom.style.height),
   };
 };
+const emit = defineEmits(["update"]);
 const onUpdate = (info: DragResizeNodeInfo) => {
-  const { top, left, width, height } = info;
+  const { top, left, width, height } = handleBoundaries(info);
   if (guDragResizePlusRef.value) {
     const lastTransform = guDragResizePlusRef.value.style.transform;
     guDragResizePlusRef.value.style.width = `${width.toFixed(2)}px`;
@@ -178,6 +192,13 @@ const onUpdate = (info: DragResizeNodeInfo) => {
     guDragResizePlusRef.value.style.transform = `${removeTransform(
       lastTransform
     )} translate3d(${left.toFixed(2)}px, ${top.toFixed(2)}px,0)`;
+    emit("update", {
+      top: top.toFixed(2),
+      left: left.toFixed(2),
+      width: width.toFixed(2),
+      height: height.toFixed(2),
+      nodeKey: nodeKey.value,
+    });
   }
 };
 const removeTransform = (cssString: string) => {
@@ -186,7 +207,33 @@ const removeTransform = (cssString: string) => {
   }
   return "";
 };
-
+const handleBoundaries = (info: DragResizeNodeInfo) => {
+  const { height, width, left, top } = info;
+  const parentDom = guDragResizePlusRef.value!.parentElement!;
+  const pHeight = parentDom.offsetHeight;
+  const pWidth = parentDom.offsetWidth;
+  if (height < minh.value) {
+    info.height = minh.value;
+  } else if (height > pHeight) {
+    info.height = pHeight;
+  }
+  if (width < minw.value) {
+    info.width = minw.value;
+  } else if (width > pWidth) {
+    info.width = pWidth;
+  }
+  if (left < 0) {
+    info.left = 0;
+  } else if (left + width > pWidth) {
+    info.width = pWidth - left;
+  }
+  if (top < 0) {
+    info.top = 0;
+  } else if (top + height > pHeight) {
+    info.height = pHeight - top;
+  }
+  return info;
+};
 onMounted(() => {
   onUpdate({
     width: width.value,
@@ -199,8 +246,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .gu-drag-resize-plus {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  cursor: move;
   .container {
     position: relative;
     width: 100%;
@@ -245,6 +291,9 @@ onMounted(() => {
       transform: translate(50%, -50%);
       cursor: ew-resize;
     }
+  }
+  &.disabled {
+    cursor: default;
   }
 }
 </style>
