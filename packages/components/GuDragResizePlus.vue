@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { toRefs, ref, onMounted } from "vue";
 import { v4 as uuid } from "uuid";
-import { debounce } from "../utils";
+import { throttle } from "../utils";
 
 export interface DragResizeProps {
   minh?: number;
@@ -34,6 +34,7 @@ export interface DragResizeProps {
   left?: number;
   nodeKey?: number | string;
   active: boolean;
+  wait?: number;
 }
 export interface ResizePoint {
   name: string;
@@ -56,6 +57,7 @@ const props = withDefaults(defineProps<DragResizeProps>(), {
   top: 0,
   left: 0,
   active: true,
+  wait: 10,
 });
 const points = ref<ResizePoint[]>([
   {
@@ -76,7 +78,7 @@ const points = ref<ResizePoint[]>([
   },
 ]);
 
-const { nodeKey, minh, minw, disabled, height, width, left, top } =
+const { nodeKey, minh, minw, disabled, height, width, left, top, wait } =
   toRefs(props);
 const onResize = (event: MouseEvent, point: ResizePoint) => {
   if (disabled.value) {
@@ -115,13 +117,13 @@ const onResize = (event: MouseEvent, point: ResizePoint) => {
     }
     onUpdate(lastInfo);
   };
-  const debounceMove = (event: MouseEvent) => debounce(move, 10, event)();
+  const throttleMove = throttle(move, wait.value);
   const up = () => {
-    document.removeEventListener("mousemove", debounceMove);
+    document.removeEventListener("mousemove", throttleMove);
     document.removeEventListener("mouseup", up);
   };
 
-  document.addEventListener("mousemove", debounceMove);
+  document.addEventListener("mousemove", throttleMove);
   document.addEventListener("mouseup", up);
 };
 const onDrag = (event: MouseEvent) => {
@@ -157,12 +159,12 @@ const onDrag = (event: MouseEvent) => {
 
     onUpdate(lastInfo);
   };
-  const debounceMove = (event: MouseEvent) => debounce(move, 10, event)();
+  const throttleMove = throttle(move, wait.value);
   const up = () => {
-    document.removeEventListener("mousemove", debounceMove);
+    document.removeEventListener("mousemove", throttleMove);
     document.removeEventListener("mouseup", up);
   };
-  document.addEventListener("mousemove", debounceMove);
+  document.addEventListener("mousemove", throttleMove);
   document.addEventListener("mouseup", up);
 };
 const getTransformValue = (

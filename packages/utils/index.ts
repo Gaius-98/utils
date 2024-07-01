@@ -1,5 +1,5 @@
-export const debounce = (func:Function, wait:number, ...args:any[]):Function => {
-  let time:number|null = null
+export const debounce = (func: Function, wait: number, ...args: any[]): Function => {
+  let time: number | null = null
   return () => {
     if (time) clearTimeout(time)
     const callNow = !time
@@ -8,6 +8,17 @@ export const debounce = (func:Function, wait:number, ...args:any[]):Function => 
     }, wait)
     if (callNow) {
       func.apply(this, args)
+    }
+  }
+}
+export const throttle = (func:Function, wait:number):Function => {
+  let time:number | null = null
+  return (...args) => {
+    if (!time) {
+      func.apply(this, args)
+      time = window.setTimeout(() => {
+        time = null
+      }, wait)
     }
   }
 }
