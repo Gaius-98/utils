@@ -1,6 +1,6 @@
-export const debounce = (func: Function, wait: number, ...args: any[]): Function => {
+export const debounce = (func: Function, wait: number): Function => {
   let time: number | null = null
-  return () => {
+  return (...args:any[]) => {
     if (time) clearTimeout(time)
     const callNow = !time
     time = window.setTimeout(() => {
