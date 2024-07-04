@@ -5,7 +5,13 @@ const obServer = (el:HTMLImageElement, src:string) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         el.src = src
-        lazyImageObserver.unobserve(el)
+        el.onload = () => {
+          lazyImageObserver.unobserve(el)
+        }
+        el.onerror = () => {
+          console.error(`图片加载失败,图片地址:${src}`)
+          lazyImageObserver.unobserve(el)
+        }
       }
     })
   }))
