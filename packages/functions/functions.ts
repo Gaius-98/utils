@@ -21,6 +21,7 @@ const scrollToDom = (to: Element, container?:Element) => {
     })
   } else {
     const { left: tLeft, top: tTop } = to.getBoundingClientRect()
+    // 动画效果 behavior smooth 表示平滑滚动并产生过渡效果、instant 表示滚动会直接跳转到目标位置 auto 或缺省值表示浏览器会自动选择滚动时的过渡效果。
     window.scrollTo({
       left: tLeft,
       top: tTop,
