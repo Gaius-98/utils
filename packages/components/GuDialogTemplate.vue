@@ -4,151 +4,132 @@
       class="gu-dialog"
       :class="size"
       :style="{
-        width:`${width}px`,
-        height:`${height}px`
-      }"
-    >
+        width: `${width}px`,
+        height: `${height}px`,
+      }">
       <header class="gu-header">
         <div class="title">
           {{ title }}
         </div>
-        <div
-          class="close"
-          @click="cancel"
-        >
-          X
-        </div>
+        <div class="close" @click="cancel">X</div>
       </header>
       <div class="content">
         {{ content }}
         <component
           :is="content"
           v-bind="componentProps"
-          ref="contentCompontent"
-        ></component>
+          ref="contentCompontent"></component>
       </div>
-      <div
-        v-if="footer"
-        class="footer"
-      >
+      <div v-if="footer" class="footer">
         <div class="button-group">
-          <div
-            class="button primary"
-            @click="confirm"
-          >
-            确认
-          </div>     
-          <div
-            class="button"
-            @click="cancel"
-          >
-            取消
-          </div> 
+          <div class="button primary" @click="confirm">确认</div>
+          <div class="button" @click="cancel">取消</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang='ts' setup name="GuDialogTemplate">
-import { Value } from 'sass'
-import { toRefs, ref } from 'vue'
-import type { Component } from 'vue'
-
-enum SizeType{
-  small,
-  default,
-  large
-}
+<script lang="ts" setup>
+import { toRefs, ref } from "vue";
+import type { Component } from "vue";
 
 export interface DialogType {
-    title:string,
-    size?:keyof typeof SizeType,
-    width?:number,
-    height?:number,
-    footer?:boolean,
-    content:Component,
-    componentProps:any,
-    onConfirm:(val:Record<'value', any>)=>void,
-    onCancel:(val:Record<'value', any>)=>void
+  title: string;
+  size?: "small" | "default" | "large";
+  width?: number;
+  height?: number;
+  footer?: boolean;
+  content?: Component;
+  componentProps: any;
+  onConfirm: (val: Record<"value", any>) => void;
+  onCancel: (val: Record<"value", any>) => void;
 }
 
 const props = withDefaults(defineProps<DialogType>(), {
-  title: '默认',
-  size: 'default',
+  title: "默认",
+  size: "default",
   footer: true,
-  componentProps: () => ({}),
-})
-const { title, content, footer, size, height, width, onConfirm, onCancel, componentProps } = toRefs(props)
-const contentCompontent = ref()
-const emits = defineEmits([])
+});
+const {
+  title,
+  content,
+  footer,
+  size,
+  height,
+  width,
+  onConfirm,
+  onCancel,
+  componentProps,
+} = toRefs(props);
+const contentCompontent = ref();
+const emits = defineEmits([]);
 const confirm = () => {
-  onConfirm.value(contentCompontent.value)
-}
+  onConfirm.value(contentCompontent.value);
+};
 const cancel = () => {
-  onCancel.value(contentCompontent.value)
-}
+  onCancel.value(contentCompontent.value);
+};
 </script>
-<style scoped lang='scss'>
-.gu-mask{
+<style scoped lang="scss">
+.gu-mask {
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 999;
-  background: rgba($color: #000000, $alpha: .3);
+  background: rgba($color: #000000, $alpha: 0.3);
 }
-.gu-dialog{
-
+.gu-dialog {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   background: #fff;
   border-radius: 3px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   z-index: 9999;
-  &.default{
+  &.default {
     width: 800px;
     height: 600px;
   }
-  &.large{
-    width:1600px;
-    height:800px
+  &.large {
+    width: 1600px;
+    height: 800px;
   }
-  &.small{
-    width:400px;
-    height:150px
+  &.small {
+    width: 400px;
+    height: 150px;
   }
-  
-  .gu-header{
+
+  .gu-header {
     width: calc(100% - 25px);
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    .title{
+    .title {
       font-size: 18px;
       font-weight: 500;
     }
-    .close{
+    .close {
       font-size: 16px;
       width: 16px;
       color: #333;
       cursor: pointer;
     }
   }
-  .content{
+  .content {
     width: calc(100% - 85px);
     height: calc(100% - 85px);
     overflow: auto;
     margin: 0 auto;
   }
-  .footer{
+  .footer {
     display: flex;
     flex-direction: row-reverse;
     margin-top: 5px;
-    .button-group{
+    .button-group {
       display: flex;
       .button {
         margin-right: 10px;
@@ -158,13 +139,12 @@ const cancel = () => {
         /* box-shadow: 0 1px 3px rgba(0,0,0,.3); */
         border-radius: 3px;
         border: 1px solid #dcdfe6;
-        &.primary{
+        &.primary {
           background: #409eff;
           color: #fff;
           border: none;
         }
       }
-
     }
   }
 }

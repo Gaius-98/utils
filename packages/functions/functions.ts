@@ -1,4 +1,3 @@
-import { Obj } from '../../types/utilsType'
 /**
  * 滚动container 定位容器
  * @param container -- Element dom的容器
@@ -72,8 +71,8 @@ const getUpperCase = (word:string, startIndex = 0, endIndex = 1) => {
  * @return {Obj} 扁平化后的对象+
  * @example flat({ a:{ b:'1' } }) => {a.b:'1'}
  */
-const flat = (obj:Obj) => {
-  const flatten = (res:Obj, curObj:any, curKey:string) => {
+const flat = (obj:Record<string, any>) => {
+  const flatten = (res:Record<string, any>, curObj:any, curKey:string) => {
     // 判断当前项是否为数组
     if (Array.isArray(curObj)) {
       curObj.forEach((item, idx) => {
@@ -95,7 +94,7 @@ const flat = (obj:Obj) => {
       })
     }
   }
-  const res:Obj = {}
+  const res:Record<string, any> = {}
   Object.keys(obj).forEach(key => {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
       flatten(res, obj[key], key)
@@ -111,8 +110,8 @@ const flat = (obj:Obj) => {
  * @return {Obj} 反扁平化的对象
  * @example unflat({a.b:'1'}) => { a:{ b:'1' } }
  */
-const unflat = (obj:Obj) => {
-  const unflatten = (key:string, value:any, res:Obj) => {
+const unflat = (obj:Record<string, any>) => {
+  const unflatten = (key:string, value:any, res:Record<string, any>) => {
     const arr = key.split('.')
     let tmp = res
     for (let i = 0; i < arr.length; i++) {
@@ -159,7 +158,7 @@ const unflat = (obj:Obj) => {
       }
     }
   }
-  const res:Obj = {}
+  const res:Record<string, any> = {}
   Object.keys(obj).forEach(key => {
     unflatten(key, obj[key], res)
   })
