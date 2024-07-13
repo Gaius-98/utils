@@ -1,41 +1,42 @@
-import { App } from 'vue'
 import copy from './directives/copy'
-import { scrollToDom, getVarType, getLowerCase, getUpperCase, flat, unflat } from './functions/functions'
+import lazyImg from './directives/lazyImg'
 import GuDragResize from './components/GuDragResize.vue'
 import GuVirtualList from './components/GuVirtualList.vue'
 import GuDynamicHeightList from './components/GuDynamicHeightList.vue'
 import GuDragResizePlus from './components/GuDragResizePlus.vue'
 import useGuDialog from './hooks/useGuDialog'
-import { GuPubSub } from './module/PubSub'
 
-export * from '../types/utilsType'
-const directives = import.meta.glob('./directives/*.ts', { eager: true })
-const compModules = import.meta.glob('./components/*.vue', { eager: true })
-
-const install = (app:App) => {
-  for (const path in directives) {
-    const directive:any = directives[path]
-    app.directive(directive.default.name, directive.default.options)
-  }
-  for (const path in compModules) {
-    const module:any = compModules[path]
-    app.component(module.default.name, module.default)
-  }
-}
 export { 
-  scrollToDom,
-  getVarType,
-  getLowerCase,
-  getUpperCase,
+  /**
+   * 拖拽组件
+   */
   GuDragResize,
+  /**
+   * 虚拟列表组件
+   */
   GuVirtualList,
+  /**
+   * 不定高的虚拟列表组件
+   */
   GuDynamicHeightList,
+  /**
+   * 懒加载图片指令
+   */
+  lazyImg,
+  /**
+   * 一键复制指令
+   */
   copy,
+  /**
+   * hooks打开弹窗
+   */
   useGuDialog,
-  flat,
-  unflat,
-  GuPubSub,
+  /**
+   * 进阶版的拖拽组件
+   */
   GuDragResizePlus,
+  
 }
-
-export default { install }
+export * from '../types/utilsType'
+export { scrollToDom, getVarType, getLowerCase, getUpperCase, flat, unflat } from './functions/functions'
+export { GuPubSub } from './module/PubSub'
