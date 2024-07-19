@@ -24,6 +24,9 @@ methods:{
 | top      | 顶部距离           | 0      | number         
 | left     | 左侧距离           | 0      | number         
 | disabled | 禁止拖拽和放大缩小 | false  | boolean 
+| scaleX | 容器横向缩放比例 | 1  | number 
+| scaleY | 容器纵向缩放比例 | 1  | number 
+| wait | 延迟拖拽时间 | 10  | number
 
 #### events
 | 函数名       | 描述                                                             |
