@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, ref, onMounted } from "vue";
+import { toRefs, ref, onMounted, watch } from "vue";
 import { v4 as uuid } from "uuid";
 import { throttle } from "../utils";
 
@@ -253,6 +253,17 @@ const handleBoundaries = (info: DragResizeNodeInfo) => {
   }
   return info;
 };
+watch(
+  () => [left.value, top.value, width.value, height.value],
+  () => {
+    onUpdateNode({
+      width: width.value,
+      height: height.value,
+      left: left.value,
+      top: top.value,
+    });
+  }
+);
 onMounted(() => {
   onUpdateNode({
     width: width.value,
