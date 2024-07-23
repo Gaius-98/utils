@@ -50,6 +50,10 @@ export interface DragResizeNodeInfo {
   top: number;
 }
 const guDragResizePlusRef = ref<HTMLElement | null>(null);
+const left = defineModel<number>("left", { required: true });
+const top = defineModel<number>("top", { required: true });
+const width = defineModel<number>("width", { required: true });
+const height = defineModel<number>("height", { required: true });
 const props = withDefaults(defineProps<DragResizeProps>(), {
   nodeKey: uuid(),
   minh: 10,
@@ -83,19 +87,7 @@ const points = ref<ResizePoint[]>([
   },
 ]);
 
-const {
-  nodeKey,
-  minh,
-  minw,
-  disabled,
-  height,
-  width,
-  left,
-  top,
-  wait,
-  scaleX,
-  scaleY,
-} = toRefs(props);
+const { nodeKey, minh, minw, disabled, wait, scaleX, scaleY } = toRefs(props);
 const onResize = (event: MouseEvent, point: ResizePoint) => {
   if (disabled.value) {
     return;
@@ -131,9 +123,10 @@ const onResize = (event: MouseEvent, point: ResizePoint) => {
         lastInfo.width = width + diffX;
         break;
     }
-    throttleUpdate(lastInfo);
+    throttleTransform(lastInfo);
   };
   const up = () => {
+    onUpdateNodeTransform();
     document.removeEventListener("mousemove", move);
     document.removeEventListener("mouseup", up);
   };
@@ -173,9 +166,10 @@ const onDrag = (event: MouseEvent) => {
       lastInfo.top = top + diffY;
     }
 
-    throttleUpdate(lastInfo);
+    throttleTransform(lastInfo);
   };
   const up = () => {
+    onUpdateNodeTransform();
     document.removeEventListener("mousemove", move);
     document.removeEventListener("mouseup", up);
   };
@@ -200,25 +194,27 @@ const getTransformValue = (
   };
 };
 const emit = defineEmits(["update"]);
-const onUpdateNode = (info: DragResizeNodeInfo) => {
-  const { top, left, width, height } = handleBoundaries(info);
+const onTransformNode = (info: DragResizeNodeInfo) => {
+  const {
+    top: endTop,
+    left: endLeft,
+    width: endWidth,
+    height: endHeight,
+  } = handleBoundaries(info);
+  top.value = endTop;
+  left.value = endLeft;
+  width.value = endWidth;
+  height.value = endHeight;
   if (guDragResizePlusRef.value) {
     const lastTransform = guDragResizePlusRef.value.style.transform;
-    guDragResizePlusRef.value.style.width = `${width.toFixed(2)}px`;
-    guDragResizePlusRef.value.style.height = `${height.toFixed(2)}px`;
+    guDragResizePlusRef.value.style.width = `${width.value}px`;
+    guDragResizePlusRef.value.style.height = `${height.value}px`;
     guDragResizePlusRef.value.style.transform = `${removeTransform(
       lastTransform
-    )} translate3d(${left.toFixed(2)}px, ${top.toFixed(2)}px,0)`;
-    emit("update", {
-      top: top.toFixed(2),
-      left: left.toFixed(2),
-      width: width.toFixed(2),
-      height: height.toFixed(2),
-      nodeKey: nodeKey.value,
-    });
+    )} translate3d(${left.value}px, ${top.value}px,0)`;
   }
 };
-const throttleUpdate = throttle(onUpdateNode, wait.value);
+const throttleTransform = throttle(onTransformNode, wait.value);
 
 const removeTransform = (cssString: string) => {
   if (cssString) {
@@ -253,19 +249,17 @@ const handleBoundaries = (info: DragResizeNodeInfo) => {
   }
   return info;
 };
-watch(
-  () => [left.value, top.value, width.value, height.value],
-  () => {
-    onUpdateNode({
-      width: width.value,
-      height: height.value,
-      left: left.value,
-      top: top.value,
-    });
-  }
-);
+const onUpdateNodeTransform = () => {
+  emit("update", {
+    top: top.value,
+    left: left.value,
+    width: width.value,
+    height: height.value,
+    nodeKey: nodeKey.value,
+  });
+};
 onMounted(() => {
-  onUpdateNode({
+  onTransformNode({
     width: width.value,
     height: height.value,
     left: left.value,
