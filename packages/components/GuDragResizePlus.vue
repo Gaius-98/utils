@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, ref, onMounted, watch } from "vue";
+import { toRefs, ref, onMounted, watch, watchEffect } from "vue";
 import { v4 as uuid } from "uuid";
 import { throttle } from "../utils";
 
@@ -225,6 +225,14 @@ const removeTransform = (cssString: string) => {
 const handleBoundaries = (info: DragResizeNodeInfo) => {
   const { height, width, left, top } = info;
   const parentDom = guDragResizePlusRef.value!.parentElement!;
+  if (!parentDom) {
+    return {
+      height,
+      width,
+      left,
+      top,
+    };
+  }
   const pHeight = parentDom.offsetHeight;
   const pWidth = parentDom.offsetWidth;
   if (height < minh.value) {
@@ -258,6 +266,17 @@ const onUpdateNodeTransform = () => {
     nodeKey: nodeKey.value,
   });
 };
+watch(
+  () => [left.value, width.value, height.value, top.value],
+  () => {
+    onTransformNode({
+      width: width.value,
+      height: height.value,
+      left: left.value,
+      top: top.value,
+    });
+  }
+);
 onMounted(() => {
   onTransformNode({
     width: width.value,
