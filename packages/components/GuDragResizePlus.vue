@@ -6,7 +6,7 @@
       disabled: disabled,
       active: active,
     }"
-    @mousedown.stop="onDrag">
+    @mousedown="onDrag">
     <div class="container">
       <slot></slot>
     </div>
@@ -15,7 +15,7 @@
       :key="point.name"
       class="resize-point"
       :class="point.name"
-      @mousedown.stop="onResize($event, point)"></div>
+      @mousedown="onResize($event, point)"></div>
   </div>
 </template>
 
@@ -297,6 +297,7 @@ onMounted(() => {
     width: 100%;
     height: 100%;
     user-select: none;
+    border: 1px solid transparent;
   }
   &.active {
     .container {
@@ -339,8 +340,13 @@ onMounted(() => {
     }
   }
   &.disabled {
-    display: none;
     cursor: default;
+    .container {
+      border: 1px solid transparent;
+    }
+    .resize-point {
+      display: none !important;
+    }
   }
 }
 </style>
