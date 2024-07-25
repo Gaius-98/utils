@@ -10,7 +10,6 @@
     <div class="container">
       <slot></slot>
     </div>
-
     <div
       v-for="point in points"
       :key="point.name"
@@ -194,6 +193,7 @@ const getTransformValue = (
   };
 };
 const emit = defineEmits(["update"]);
+const isFirst = ref(true);
 const onTransformNode = (info: DragResizeNodeInfo) => {
   const {
     top: endTop,
@@ -201,6 +201,7 @@ const onTransformNode = (info: DragResizeNodeInfo) => {
     width: endWidth,
     height: endHeight,
   } = handleBoundaries(info);
+  isFirst.value = false;
   top.value = endTop;
   left.value = endLeft;
   width.value = endWidth;
@@ -225,7 +226,7 @@ const removeTransform = (cssString: string) => {
 const handleBoundaries = (info: DragResizeNodeInfo) => {
   const { height, width, left, top } = info;
   const parentDom = guDragResizePlusRef.value!.parentElement!;
-  if (!parentDom) {
+  if (!parentDom || isFirst.value) {
     return {
       height,
       width,
@@ -278,6 +279,7 @@ watch(
   }
 );
 onMounted(() => {
+  console.log(width.value, height.value);
   onTransformNode({
     width: width.value,
     height: height.value,
@@ -337,6 +339,7 @@ onMounted(() => {
     }
   }
   &.disabled {
+    display: none;
     cursor: default;
   }
 }
