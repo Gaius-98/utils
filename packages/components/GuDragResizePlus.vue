@@ -47,6 +47,7 @@ export interface DragResizeNodeInfo {
   height: number;
   left: number;
   top: number;
+  nodeKey?: string | number;
 }
 const guDragResizePlusRef = ref<HTMLElement | null>(null);
 const left = defineModel<number>("left", { required: true });
@@ -97,6 +98,13 @@ const onResize = (event: MouseEvent, point: ResizePoint) => {
   const { top, left, width, height } = getTransformValue(
     guDragResizePlusRef.value!
   );
+  onBeforeTransfrom({
+    width,
+    top,
+    left,
+    height,
+    nodeKey: nodeKey.value,
+  });
   const move = (event: MouseEvent) => {
     const lastInfo = {
       width,
@@ -104,6 +112,7 @@ const onResize = (event: MouseEvent, point: ResizePoint) => {
       left,
       height,
     };
+
     const diffY = (event.y - startY) / scaleY.value;
     const diffX = (event.x - startX) / scaleX.value;
     switch (direction) {
@@ -144,6 +153,13 @@ const onDrag = (event: MouseEvent) => {
   const { top, left, width, height } = getTransformValue(
     guDragResizePlusRef.value!
   );
+  onBeforeTransfrom({
+    width,
+    top,
+    left,
+    height,
+    nodeKey: nodeKey.value,
+  });
   const move = (event: MouseEvent) => {
     const lastInfo = {
       width,
@@ -192,7 +208,7 @@ const getTransformValue = (
     height: parseFloat(dom.style.height),
   };
 };
-const emit = defineEmits(["update"]);
+const emit = defineEmits(["update", "beforeTransform"]);
 const isFirst = ref(true);
 const onTransformNode = (info: DragResizeNodeInfo) => {
   const {
@@ -267,6 +283,9 @@ const onUpdateNodeTransform = () => {
     nodeKey: nodeKey.value,
   });
 };
+const onBeforeTransfrom = (data: DragResizeNodeInfo) => {
+  emit("beforeTransform", data);
+};
 watch(
   () => [left.value, width.value, height.value, top.value],
   () => {
@@ -279,7 +298,6 @@ watch(
   }
 );
 onMounted(() => {
-  console.log(width.value, height.value);
   onTransformNode({
     width: width.value,
     height: height.value,
