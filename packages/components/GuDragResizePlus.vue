@@ -289,12 +289,14 @@ const onBeforeTransfrom = (data: DragResizeNodeInfo) => {
 watch(
   () => [left.value, width.value, height.value, top.value],
   () => {
-    onTransformNode({
-      width: width.value,
-      height: height.value,
-      left: left.value,
-      top: top.value,
-    });
+    if (guDragResizePlusRef.value) {
+      const lastTransform = guDragResizePlusRef.value.style.transform;
+      guDragResizePlusRef.value.style.width = `${width.value}px`;
+      guDragResizePlusRef.value.style.height = `${height.value}px`;
+      guDragResizePlusRef.value.style.transform = `${removeTransform(
+        lastTransform
+      )} translate3d(${left.value}px, ${top.value}px,0)`;
+    }
   }
 );
 onMounted(() => {
