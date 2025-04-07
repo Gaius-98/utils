@@ -37,6 +37,6 @@ export {
   GuDragResizePlus,
   
 }
-export * from '../types/utilsType'
+export * from './types/utilsType'
 export { scrollToDom, getVarType, getLowerCase, getUpperCase, flat, unflat } from './functions/functions'
 export { GuPubSub } from './module/PubSub'

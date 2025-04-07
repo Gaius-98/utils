@@ -4,10 +4,12 @@ import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(),  dts({
-    insertTypesEntry: true,
-    copyDtsFiles: false,
-  })],
+  plugins: [vue(),  dts({ 
+     tsconfigPath: './tsconfig.json',      // 显式指定子项目配置
+      rollupTypes: true,                    // 合并声明文件
+      insertTypesEntry: true,               // 注入类型入口
+      copyDtsFiles: true,                   // 复制声明文件到输出目录
+   })],
   esbuild:{
     pure:['console.log']
   },
@@ -15,21 +17,10 @@ export default defineConfig({
     minify:'esbuild',
     outDir: 'lib',
     lib: {
-      entry: resolve(__dirname, './packages/index.ts'),
+      entry: resolve(__dirname, './index.ts'),
       name: 'utils',
       fileName: 'utils',
-      formats:['es'],
-    },
-    
-    rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
-      external: ['vue'],
-      output: {
-        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
-        globals: {
-          vue: 'Vue',
-        },
-      },
+      formats:['es','umd'],
     },
   },
   resolve: {

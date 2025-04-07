@@ -1,4 +1,4 @@
-import { BindType } from '../../types/utilsType'
+import { BindType } from '../types/utilsType'
 
 const obServer = (el:HTMLImageElement, src:string) => {
   let lazyImageObserver = new IntersectionObserver(((entries) => {

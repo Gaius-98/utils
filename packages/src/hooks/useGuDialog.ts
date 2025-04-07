@@ -1,6 +1,6 @@
 import { createApp, App } from 'vue'
 import GuDialogTemplate from '../components/GuDialogTemplate.vue'
-import { GuDialogType, CallBackFn } from '../../types/utilsType'
+import { GuDialogType, CallBackFn } from '../types/utilsType'
 
 /**
  * 使用hook的方式,打开一个弹窗

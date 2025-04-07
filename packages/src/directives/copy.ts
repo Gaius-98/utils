@@ -1,4 +1,4 @@
-import { BindType } from '../../types/utilsType'
+import { BindType } from '../types/utilsType'
 
 const copyText = (text:string) => {
   const inputDom = document.createElement('input') as HTMLInputElement

@@ -33,32 +33,11 @@
         "url": "https://github.com/Gaius-98/utils.git",
         "email": "2388838628@qq.com"
     },
-    "files": ["lib/*"],
     "scripts": {
-        "dev": "vite",
-        "build": "vue-tsc --noEmit&& vite build",
-        "preview": "vite preview"
+        "build": "pnpm -r --filter=@utils/packages run build",
+        "dev":"pnpm -r --filter=@utils/examples run start"
     },
     "dependencies": {
-        "sass": "^1.54.8",
-        "uuid": "^8.3.2",
-        "vite-plugin-dts": "^3.9.1",
-        "vue": "^3.4.31"
-    },
-    "devDependencies": {
-        "@types/node": "^18.7.14",
-        "@types/uuid": "^8.3.4",
-        "@typescript-eslint/eslint-plugin": "^5.40.0",
-        "@typescript-eslint/parser": "^5.40.0",
-        "@vitejs/plugin-vue": "^5.0.4",
-        "eslint": "^8.25.0",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-plugin-import": "^2.26.0",
-        "eslint-plugin-typescript": "^0.14.0",
-        "eslint-plugin-vue": "^9.6.0",
-        "typescript": "^5.4.2",
-        "vite": "^5.1.6",
-        "vue-eslint-parser": "^9.1.0",
-        "vue-tsc": "^2.0.6"
+        "@vitejs/plugin-vue": "^5.0.4"
     }
 }
