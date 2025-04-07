@@ -1,18 +1,18 @@
 {
     "name": "gaius-utils",
     "private": false,
-    "version": "1.1.8",
+    "version": "1.1.9",
     "author": {
         "name": "WangGuoshuai",
         "email": "2388838628@qq.com"
     },
-    "types": "./lib/utils.d.ts",
+    "types": "./packages/lib/utils.d.ts",
     "exports": {
         ".": {
-            "import": "./lib/utils.js"
+            "import": "./packages/lib/utils.js"
         },
         "./lib/style.css": {
-            "import": "./lib/style.css"
+            "import": "./packages/lib/style.css"
         }
     },
     "keywords": [
